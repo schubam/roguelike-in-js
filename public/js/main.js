@@ -1,9 +1,7 @@
 import setupKeyboard from "./input.js";
-import { TILE_SIZE, WIDTH, HEIGHT } from "./constants.js";
-
-function indexToPosition(index) {
-  return { x: index % WIDTH, y: Math.floor(index / WIDTH) };
-}
+import { TILE_SIZE, indexToPosition } from "./constants.js";
+import { createStore, roguelikeApp } from "./store.js";
+import levelData from "./levelData.js";
 
 function drawLevel(context) {
   levelData.forEach((tile, index) => {
@@ -36,11 +34,10 @@ function drawLevel(context) {
 }
 
 function drawPlayer(context) {
-  console.log(player.position);
   context.fillStyle = player.color;
   context.fillRect(
-    player.position.x * TILE_SIZE,
-    player.position.y * TILE_SIZE,
+    store.getState().playerPosition.x * TILE_SIZE,
+    store.getState().playerPosition.y * TILE_SIZE,
     TILE_SIZE,
     TILE_SIZE
   );
@@ -73,52 +70,10 @@ function drawFloor(context, x, y) {
   context.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
-const player = {
-  position: { x: 10, y: 10 },
-  color: "red"
-};
-
-function setPlayerStartingPosition() {
-  const startingTile = levelData.indexOf("@");
-  if (startingTile === -1) {
-    throw "Error: no player starting position found in map";
-  }
-  player.position = indexToPosition(startingTile);
-}
-
-// prettier-ignore
-const levelData = [
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", "W", "W", "W", "W", "W", "W", "W", "W", " ", " ", " ", "W", "W", "W", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", "W", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", "W", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", "W", " ", " ", " ", " ", " ", " ", "W", "W", "W", "W", "W", " ", "X", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", "W", " ", " ", " ", " ", " ", " ", "D", " ", " ", " ", "D", " ", "X", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", "W", " ", " ", " ", " ", " ", " ", "W", "W", "W", "W", "W", " ", " ", "W", " ", " ", " ", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", 
-        " ", " ", "W", " ", " ", "@", " ", " ", " ", "W", " ", " ", " ", "W", "W", "D", "W", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", "W", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", "W", " ", "W", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", "W", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", "W", " ", "W", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", "W", "W", "W", "W", "W", "W", "W", "W", " ", " ", " ", " ", "W", " ", "W", "W", "W", "W", "W", " ", " ", " ", "X", "X", "X", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", "D", " ", " ", " ", "X", "X", "X", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", "D", " ", " ", " ", "X", "X", "X", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", "W", "W", "W", "W", "W", "W", " ", " ", " ", "X", "X", "X", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
-        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
-];
+// const player = {
+//   position: { x: 10, y: 10 },
+//   color: "red"
+// };
 
 function render(context) {
   drawLevel(context);
@@ -126,11 +81,24 @@ function render(context) {
 }
 
 function main(context) {
-  const input = setupKeyboard(player, render.bind(this, context));
+  const input = setupKeyboard(player, store.dispatch);
   input.listenTo(window);
-  setPlayerStartingPosition();
+
+  // dispatch actions to modify state
+  // store.dispatch({ type: "MOVE_RIGHT" });
+  // store.dispatch({ type: "MOVE_RIGHT" });
+  // store.dispatch({ type: "MOVE_DOWN" });
+  // store.dispatch({ type: "MOVE_DOWN" });
+
+  playerStartingPosition();
   render(context);
 }
+
+const store = createStore(roguelikeApp);
+const unsubscribe = store.subscribe(() => {
+  console.log("Store: ", store.getState().playerPosition);
+  render(context);
+});
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");

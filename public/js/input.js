@@ -55,29 +55,25 @@ function setupKeyboard(player, renderCallback) {
   const input = new KeyboardState();
   input.addMapping("ArrowRight", keyState => {
     if (keyState == RELEASED) {
-      player.position.x = clampToScreenX(player.position.x + 1);
-      renderCallback();
+      dispatch({ type: "MOVE_RIGHT" });
     }
   });
 
   input.addMapping("ArrowLeft", keyState => {
     if (keyState == RELEASED) {
-      player.position.x = clampToScreenX(player.position.x - 1);
-      renderCallback();
+      dispatch({ type: "MOVE_LEFT" });
     }
   });
 
   input.addMapping("ArrowUp", keyState => {
     if (keyState == RELEASED) {
-      player.position.y = clampToScreenY(player.position.y - 1);
-      renderCallback();
+      dispatch({ type: "MOVE_UP" });
     }
   });
 
   input.addMapping("ArrowDown", keyState => {
     if (keyState == RELEASED) {
-      player.position.y = clampToScreenY(player.position.y + 1);
-      renderCallback();
+      dispatch({ type: "MOVE_DOWN" });
     }
   });
 
