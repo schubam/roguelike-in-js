@@ -1,7 +1,7 @@
-import { playerStartingPosition } from "./levelData.js";
+import { loadByTile, loadLevelData, loadLevel } from "./levelData.js";
 
-export function createStore(reducer) {
-  let state;
+function createStore(reducer, initialState) {
+  let state = initialState;
   let listeners = [];
 
   const getState = () => state;
@@ -9,13 +9,11 @@ export function createStore(reducer) {
   const dispatch = action => {
     state = reducer(state, action);
     listeners.forEach(listener => listener());
+    console.log(state);
   };
 
   const subscribe = listener => {
     listeners.push(listener);
-    return () => {
-      listeners = listeners.filter(l => l !== listener);
-    };
   };
 
   dispatch({});
@@ -27,17 +25,35 @@ export function createStore(reducer) {
   };
 }
 
+const combineReducers = reducers => {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce((nextState, key) => {
+      nextState[key] = reducers[key](state[key], action);
+      return nextState;
+    }, {});
+  };
+};
+
 // reducer -
 //   a reducer works with the current state
 //   executes an action,
 //   returns an updated state (no mutation!)
-export const roguelikeApp = (state = {}, action) => {
-  return {
-    playerPosition: playerPosition(state.playerPosition, action)
-  };
+
+const levelData = (state, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
 };
 
-const playerPosition = (state = playerStartingPosition(), action) => {
+const byTile = (state, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+const playerPosition = (state, action) => {
   switch (action.type) {
     case "MOVE_LEFT": {
       const newX = state.x - 1;
@@ -56,6 +72,20 @@ const playerPosition = (state = playerStartingPosition(), action) => {
     default:
       return state;
   }
+};
+
+const roguelikeApp = combineReducers({
+  levelData,
+  byTile,
+  playerPosition
+});
+
+export const createGame = level => {
+  const initialState = loadLevel(level);
+  return createStore(roguelikeApp, {
+    ...initialState,
+    playerPosition: initialState.byTile.playerStartingPosition
+  });
 };
 
 // const incrementCounter = (list, index) => {

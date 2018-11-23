@@ -1,6 +1,6 @@
 # Todo
 
-## Worked on last?
+## Worked on last
 
 I thought about how to colide with a wall/door. Also that i need to research the commands in rogue. I don't know what look does, for example.
 

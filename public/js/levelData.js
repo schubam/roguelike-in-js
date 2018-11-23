@@ -1,7 +1,7 @@
 import { indexToPosition } from "./constants.js";
 
 // prettier-ignore
-const levelData = [
+const level1 = [
     " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
     " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
     " ", " ", "W", "W", "W", "W", "W", "W", "W", "W", " ", " ", " ", "W", "W", "W", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
@@ -34,12 +34,35 @@ const levelData = [
     " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 ];
 
-export function playerStartingPosition() {
-  const startingTile = levelData.indexOf("@");
+function playerStartingPosition(data) {
+  const startingTile = data.indexOf("@");
   if (startingTile === -1) {
     throw "Error: no player starting position found in map";
   }
   return indexToPosition(startingTile);
 }
 
-export default levelData;
+function doors(data) {
+  const reducer = (acc, value, index) => {
+    if (value === "D") {
+      acc.push(indexToPosition(index));
+    }
+    return acc;
+  };
+  return data.reduce(reducer, []);
+}
+
+export const loadByTile = level => {
+  const data = loadLevelData(level);
+  return {
+    playerStartingPosition: playerStartingPosition(data),
+    doors: doors(data)
+  };
+};
+
+export const loadLevelData = level => level1;
+
+export const loadLevel = level => ({
+  levelData: loadLevelData(level),
+  byTile: loadByTile(level)
+});

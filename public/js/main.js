@@ -1,10 +1,9 @@
 import setupKeyboard from "./input.js";
 import { TILE_SIZE, indexToPosition } from "./constants.js";
-import { createStore, roguelikeApp } from "./store.js";
-import levelData from "./levelData.js";
+import { createGame } from "./store.js";
 
 function drawLevel(context) {
-  levelData.forEach((tile, index) => {
+  store.getState().levelData.forEach((tile, index) => {
     let { x, y } = indexToPosition(index);
     switch (tile) {
       case " ":
@@ -70,11 +69,6 @@ function drawFloor(context, x, y) {
   context.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
-// const player = {
-//   position: { x: 10, y: 10 },
-//   color: "red"
-// };
-
 function render(context) {
   drawLevel(context);
   drawPlayer(context);
@@ -83,19 +77,10 @@ function render(context) {
 function main(context) {
   const input = setupKeyboard(store.dispatch);
   input.listenTo(window);
-
-  // dispatch actions to modify state
-  // store.dispatch({ type: "MOVE_RIGHT" });
-  // store.dispatch({ type: "MOVE_RIGHT" });
-  // store.dispatch({ type: "MOVE_DOWN" });
-  // store.dispatch({ type: "MOVE_DOWN" });
-
   render(context);
 }
-
-const store = createStore(roguelikeApp);
-const unsubscribe = store.subscribe(() => {
-  console.log("Store: ", store.getState().playerPosition);
+const store = createGame("level1");
+store.subscribe(() => {
   render(context);
 });
 
