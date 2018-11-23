@@ -1,73 +1,8 @@
-import KeyboardState, { RELEASED, PRESSED } from "./input.js";
-import { TILE_SIZE, indexToPosition, positionToIndex } from "./constants.js";
+import Camera from "./camera.js";
+import { HEIGHT, WIDTH } from "./constants.js";
+import KeyboardState, { RELEASED } from "./input.js";
 import { createGame } from "./store.js";
-
-function drawLevel(context) {
-  store.getState().levelData.forEach((tile, index) => {
-    let { x, y } = indexToPosition(index);
-    switch (tile) {
-      case " ":
-        drawFloor(context, x, y);
-        break;
-
-      case "W":
-        drawWall(context, x, y);
-        break;
-
-      case "D":
-        drawDoor(context, x, y);
-        break;
-
-      case "X":
-        drawTreasure(context, x, y);
-        break;
-
-      case "@":
-        drawPlayerStarting(context, x, y);
-        break;
-
-      default:
-        break;
-    }
-  });
-}
-
-function drawPlayer(context) {
-  context.fillStyle = "red";
-  context.fillRect(
-    store.getState().playerPosition.x * TILE_SIZE,
-    store.getState().playerPosition.y * TILE_SIZE,
-    TILE_SIZE,
-    TILE_SIZE
-  );
-}
-
-function drawPlayerStarting(context, x, y) {
-  context.fillStyle = "blue";
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
-
-function drawDoor(context, x, y) {
-  context.fillStyle = "brown";
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
-
-function drawTreasure(context, x, y) {
-  context.fillStyle = "yellow";
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
-
-function drawWall(context, x, y) {
-  context.fillStyle = "darkgrey";
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
-
-function drawFloor(context, x, y) {
-  context.fillStyle = "darkgreen";
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-  context.strokeStyle = "black";
-  context.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
+import { loadLevel } from "./levelData.js";
 
 function render(context) {
   drawLevel(context);
@@ -75,8 +10,13 @@ function render(context) {
 }
 
 function tryMovePlayer(from, to) {
-  const toIndex = positionToIndex(to);
-  const field = store.getState().levelData[toIndex];
+  if (to.x < 0 || to.y < 0) {
+    console.log("can't move to ", to);
+    return;
+  }
+
+  const toIndex = store.getState().level.positionToIndex(to);
+  const field = store.getState().level.data[toIndex];
   if (["D", "W"].some(e => e === field)) {
     console.log("can't move to ", to);
   } else {
@@ -84,7 +24,7 @@ function tryMovePlayer(from, to) {
   }
 }
 
-function main(context) {
+function setupInput() {
   const input = new KeyboardState();
   input.addMapping("ArrowRight", keyState => {
     const pos = store.getState().playerPosition;
@@ -114,14 +54,22 @@ function main(context) {
     }
   });
   input.listenTo(window);
-
-  render(context);
 }
-const store = createGame("level1");
-store.subscribe(() => {
-  render(context);
-});
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
-main(context);
+const store = createGame();
+const camera = new Camera(context, WIDTH, HEIGHT, store);
+
+store.subscribe(() => {
+  camera.render();
+});
+
+setupInput();
+
+const level = loadLevel("level1");
+store.dispatch({
+  type: "LEVEL_LOADED",
+  ...level,
+  playerPosition: level.byTile.playerStartingPosition
+});

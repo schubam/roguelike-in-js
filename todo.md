@@ -17,6 +17,6 @@ I thought about how to colide with a wall/door. Also that i need to research the
 - ~~display map~~
 - ~~show player~~
 - scrolling of map
-- collide with walls
+- ~~collide with walls~~
 - look command
 - open/close doors
