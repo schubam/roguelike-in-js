@@ -55,20 +55,9 @@ const byTile = (state, action) => {
 
 const playerPosition = (state, action) => {
   switch (action.type) {
-    case "MOVE_LEFT": {
-      const newX = state.x - 1;
-      return { ...state, x: newX };
+    case "PLAYER_MOVE": {
+      return { ...action.to };
     }
-    case "MOVE_RIGHT":
-      const newX = state.x + 1;
-      return { ...state, x: newX };
-    case "MOVE_UP": {
-      const newY = state.y - 1;
-      return { ...state, y: newY };
-    }
-    case "MOVE_DOWN":
-      const newY = state.y + 1;
-      return { ...state, y: newY };
     default:
       return state;
   }

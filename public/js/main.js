@@ -1,5 +1,5 @@
-import setupKeyboard from "./input.js";
-import { TILE_SIZE, indexToPosition } from "./constants.js";
+import KeyboardState, { RELEASED, PRESSED } from "./input.js";
+import { TILE_SIZE, indexToPosition, positionToIndex } from "./constants.js";
 import { createGame } from "./store.js";
 
 function drawLevel(context) {
@@ -74,9 +74,47 @@ function render(context) {
   drawPlayer(context);
 }
 
+function tryMovePlayer(from, to) {
+  const toIndex = positionToIndex(to);
+  const field = store.getState().levelData[toIndex];
+  if (["D", "W"].some(e => e === field)) {
+    console.log("can't move to ", to);
+  } else {
+    store.dispatch({ type: "PLAYER_MOVE", from, to });
+  }
+}
+
 function main(context) {
-  const input = setupKeyboard(store.dispatch);
+  const input = new KeyboardState();
+  input.addMapping("ArrowRight", keyState => {
+    const pos = store.getState().playerPosition;
+    if (keyState == RELEASED) {
+      tryMovePlayer(pos, { ...pos, x: pos.x + 1 });
+    }
+  });
+
+  input.addMapping("ArrowLeft", keyState => {
+    if (keyState == RELEASED) {
+      const pos = store.getState().playerPosition;
+      tryMovePlayer(pos, { ...pos, x: pos.x - 1 });
+    }
+  });
+
+  input.addMapping("ArrowUp", keyState => {
+    if (keyState == RELEASED) {
+      const pos = store.getState().playerPosition;
+      tryMovePlayer(pos, { ...pos, y: pos.y - 1 });
+    }
+  });
+
+  input.addMapping("ArrowDown", keyState => {
+    if (keyState == RELEASED) {
+      const pos = store.getState().playerPosition;
+      tryMovePlayer(pos, { ...pos, y: pos.y + 1 });
+    }
+  });
   input.listenTo(window);
+
   render(context);
 }
 const store = createGame("level1");
