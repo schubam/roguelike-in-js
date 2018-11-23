@@ -1,7 +1,7 @@
 import { indexToPosition } from "./constants.js";
 
 // prettier-ignore
-export default levelData = [
+const levelData = [
     " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
     " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
     " ", " ", "W", "W", "W", "W", "W", "W", "W", "W", " ", " ", " ", "W", "W", "W", "W", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 
@@ -41,3 +41,5 @@ export function playerStartingPosition() {
   }
   return indexToPosition(startingTile);
 }
+
+export default levelData;

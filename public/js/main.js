@@ -34,7 +34,7 @@ function drawLevel(context) {
 }
 
 function drawPlayer(context) {
-  context.fillStyle = player.color;
+  context.fillStyle = "red";
   context.fillRect(
     store.getState().playerPosition.x * TILE_SIZE,
     store.getState().playerPosition.y * TILE_SIZE,
@@ -81,7 +81,7 @@ function render(context) {
 }
 
 function main(context) {
-  const input = setupKeyboard(player, store.dispatch);
+  const input = setupKeyboard(store.dispatch);
   input.listenTo(window);
 
   // dispatch actions to modify state
@@ -90,7 +90,6 @@ function main(context) {
   // store.dispatch({ type: "MOVE_DOWN" });
   // store.dispatch({ type: "MOVE_DOWN" });
 
-  playerStartingPosition();
   render(context);
 }
 

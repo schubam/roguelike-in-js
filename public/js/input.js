@@ -51,7 +51,7 @@ function clamp(min, max, value) {
 const clampToScreenX = clamp.bind(this, 0, 32 - 1);
 const clampToScreenY = clamp.bind(this, 0, 30 - 1);
 
-function setupKeyboard(player, renderCallback) {
+function setupKeyboard(dispatch) {
   const input = new KeyboardState();
   input.addMapping("ArrowRight", keyState => {
     if (keyState == RELEASED) {

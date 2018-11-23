@@ -1,3 +1,5 @@
+import { playerStartingPosition } from "./levelData.js";
+
 export function createStore(reducer) {
   let state;
   let listeners = [];
@@ -35,21 +37,21 @@ export const roguelikeApp = (state = {}, action) => {
   };
 };
 
-const playerPosition = (state = { x: 10, y: 10 }, action) => {
+const playerPosition = (state = playerStartingPosition(), action) => {
   switch (action.type) {
     case "MOVE_LEFT": {
-      newX = state.x - 1;
+      const newX = state.x - 1;
       return { ...state, x: newX };
     }
     case "MOVE_RIGHT":
-      newX = state.x + 1;
+      const newX = state.x + 1;
       return { ...state, x: newX };
     case "MOVE_UP": {
-      newY = state.y - 1;
-      return { ...state, x: newY };
+      const newY = state.y - 1;
+      return { ...state, y: newY };
     }
     case "MOVE_DOWN":
-      newY = state.y + 1;
+      const newY = state.y + 1;
       return { ...state, y: newY };
     default:
       return state;
