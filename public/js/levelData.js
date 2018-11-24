@@ -1,6 +1,6 @@
 import level1 from "./levels/level1.js";
 
-const indexToPosition = w => index => ({
+export const makeIndexToPosition = w => index => ({
   x: index % w,
   y: Math.floor(index / w)
 });
@@ -36,7 +36,7 @@ export const loadLevelData = level => {
 
 export const loadLevel = level => {
   const levelData = loadLevelData(level);
-  const i2pos = indexToPosition(levelData.width);
+  const i2pos = makeIndexToPosition(levelData.width);
   const pos2i = positionToIndex(levelData.width);
 
   return {

@@ -68,7 +68,14 @@ const playerPosition = (state, action) => {
       return { ...state, ...action.playerPosition };
     }
     case "PLAYER_MOVE": {
-      return { ...state, ...action.to };
+      return {
+        ...state,
+        ...action.to,
+        direction: {
+          x: action.to.x - action.from.x,
+          y: action.to.y - action.from.y
+        }
+      };
     }
 
     default:
