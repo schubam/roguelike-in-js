@@ -1,11 +1,12 @@
 body {
-    background: #000;
-    margin: 0;
+  background: #000;
+  margin: 0;
 }
 
 #screen {
-    display: block;
-    image-rendering: pixelated;
-    height: 50vh;
-    margin: auto;
+  display: block;
+  image-rendering: pixelated;
+  height: 50vh;
+  margin: auto;
+  background: #bebebe;
 }

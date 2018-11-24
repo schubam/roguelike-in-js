@@ -2,7 +2,7 @@
 
 ## Worked on last
 
-I thought about how to colide with a wall/door. Also that i need to research the commands in rogue. I don't know what look does, for example.
+I need to research the commands in rogue. I don't know what look does, for example.
 
 ## Step 3 - It's a boy!
 
@@ -16,7 +16,7 @@ I thought about how to colide with a wall/door. Also that i need to research the
 
 - ~~display map~~
 - ~~show player~~
-- scrolling of map
+- ~~scrolling of map~~
 - ~~collide with walls~~
 - look command
 - open/close doors
