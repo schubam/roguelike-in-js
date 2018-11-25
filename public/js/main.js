@@ -59,15 +59,38 @@ function setupInput() {
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 const store = createGame();
-const camera = new Camera(9, 9, context, store);
+const camera = new Camera(26, 20, store);
+const camera2 = new Camera(15, 5, store);
+const camera3 = new Camera(10, 5, store);
+
+function titlebar(context) {
+  context.fillStyle = "blue";
+  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
+}
+
+function sidebar(context) {
+  context.fillStyle = "blue";
+  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
+}
+
+function statusbar(context) {
+  context.fillStyle = "blue";
+  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
+}
+
+titlebar(context);
+sidebar(context);
+statusbar(context);
 
 store.subscribe(() => {
-  camera.render();
+  camera.render()(context, 0, 8);
+  camera2.render()(context, 0, 160 + 8 + 8);
+  camera3.render()(context, 16 * 8, 160 + 8 + 8);
 });
 
 setupInput();
 
-loadLevel("1").then(level => {
+loadLevel("level1").then(level => {
   store.dispatch({
     type: "LEVEL_LOADED",
     ...level,

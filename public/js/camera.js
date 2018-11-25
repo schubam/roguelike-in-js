@@ -1,14 +1,8 @@
-import { drawLevel, drawPlayer } from "./render.js";
+import { drawLevel, drawPlayer, createBuffer } from "./render.js";
 import Grid from "./grid.js";
 
-function fillArrayWithOutOfBounds(ary, maxElements) {
-  for (let i = 0; ary.length < maxElements; i++) {
-    ary.push("|");
-  }
-}
-
 export default class Camera {
-  constructor(width, height, context, store) {
+  constructor(width, height, store) {
     this.width = width;
     this.height = height;
     this.topLeft = { x: 0, y: 0 };
@@ -18,7 +12,6 @@ export default class Camera {
     };
     this.scrollBoundaryX = Math.min(5, Math.floor(width * 0.25));
     this.scrollBoundaryY = Math.min(5, Math.floor(height * 0.25));
-    this.context = context;
     this.store = store;
   }
 
@@ -52,44 +45,48 @@ export default class Camera {
   render() {
     const { level, playerPosition } = this.store.getState();
 
-    console.log("player position ", playerPosition);
-    this.debug();
+    this.followPlayer(playerPosition, playerPosition.direction);
 
-    let movedCamera = false;
-    if (playerPosition.direction) {
-      if (playerPosition.direction.x === 1) {
-        console.log("move right");
-        if (playerPosition.x >= this.center.x + this.scrollBoundaryX) {
+    const cdata = this.cameraData(level);
+
+    const buffer = createBuffer(this.width, this.height);
+    const context = buffer.getContext("2d");
+
+    const layers = [];
+    layers.push(drawLevel(this.width, this.height, cdata));
+    layers.push(
+      drawPlayer(this.width, this.height, {
+        x: playerPosition.x - this.topLeft.x,
+        y: playerPosition.y - this.topLeft.y
+      })
+    );
+    layers.forEach(layer => layer(context));
+
+    return function(ctx, x, y) {
+      ctx.drawImage(buffer, x, y);
+    };
+  }
+
+  followPlayer(position, direction) {
+    if (direction) {
+      if (direction.x === 1) {
+        if (position.x >= this.center.x + this.scrollBoundaryX) {
           this.move({ x: 1, y: 0 });
-          movedCamera = true;
         }
-      } else if (playerPosition.direction.x === -1) {
-        if (playerPosition.x <= this.center.x - this.scrollBoundaryX) {
-          console.log("move left");
+      } else if (direction.x === -1) {
+        if (position.x <= this.center.x - this.scrollBoundaryX) {
           this.move({ x: -1, y: 0 });
-          movedCamera = true;
         }
-      } else if (playerPosition.direction.y === 1) {
-        if (playerPosition.y >= this.center.y + this.scrollBoundaryY) {
-          console.log("move down");
+      } else if (direction.y === 1) {
+        if (position.y >= this.center.y + this.scrollBoundaryY) {
           this.move({ x: 0, y: 1 });
-          movedCamera = true;
         }
-      } else if (playerPosition.direction.y === -1) {
-        if (playerPosition.y <= this.center.y - this.scrollBoundaryY) {
-          console.log("move up");
+      } else if (direction.y === -1) {
+        if (position.y <= this.center.y - this.scrollBoundaryY) {
           this.move({ x: 0, y: -1 });
-          movedCamera = true;
         }
       }
     }
-
-    const cdata = this.cameraData(level);
-    drawLevel(this.context, cdata);
-    drawPlayer(this.context, {
-      x: playerPosition.x - this.topLeft.x,
-      y: playerPosition.y - this.topLeft.y
-    });
   }
 
   cameraData(level) {

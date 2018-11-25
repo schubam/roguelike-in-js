@@ -12,7 +12,7 @@ export default class Grid {
       }) != number of tiles in grid, should be ${this.width * this.height}`;
     }
     this.forEach((_, x, y) => {
-      let val = data[x + y * this.height];
+      let val = data[x + y * this.width];
       this.set(x, y, val);
     });
   }

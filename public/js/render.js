@@ -1,6 +1,15 @@
 const TILE_SIZE = 8;
 
-export function drawLevel(context, data) {
+export function createBuffer(width, height) {
+  const buffer = document.createElement("canvas");
+  buffer.width = width * TILE_SIZE;
+  buffer.height = height * TILE_SIZE;
+  return buffer;
+}
+export function drawLevel(width, height, data) {
+  const buffer = createBuffer(width, height);
+  const context = buffer.getContext("2d");
+
   data.forEach((tile, x, y) => {
     switch (tile) {
       case " ":
@@ -32,9 +41,15 @@ export function drawLevel(context, data) {
         break;
     }
   });
+  return function(ctx) {
+    ctx.drawImage(buffer, 0, 0);
+  };
 }
 
-export function drawPlayer(context, playerPosition) {
+export function drawPlayer(width, height, playerPosition) {
+  const buffer = createBuffer(width, height);
+  const context = buffer.getContext("2d");
+
   context.fillStyle = "red";
   context.fillRect(
     playerPosition.x * TILE_SIZE,
@@ -42,6 +57,9 @@ export function drawPlayer(context, playerPosition) {
     TILE_SIZE,
     TILE_SIZE
   );
+  return function(ctx) {
+    ctx.drawImage(buffer, 0, 0);
+  };
 }
 
 function drawPlayerStarting(context, x, y) {
