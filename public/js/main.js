@@ -1,5 +1,4 @@
 import Camera from "./camera.js";
-import { HEIGHT, WIDTH } from "./constants.js";
 import KeyboardState, { RELEASED } from "./input.js";
 import { createGame } from "./store.js";
 import { loadLevel } from "./levelData.js";
@@ -59,7 +58,7 @@ function setupInput() {
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 const store = createGame();
-const camera = new Camera(context, WIDTH, HEIGHT, store);
+const camera = new Camera(9, 9, context, store);
 
 store.subscribe(() => {
   camera.render();
@@ -67,9 +66,10 @@ store.subscribe(() => {
 
 setupInput();
 
-const level = loadLevel("level1");
-store.dispatch({
-  type: "LEVEL_LOADED",
-  ...level,
-  playerPosition: level.byTile.playerStartingPosition
+loadLevel("1").then(level => {
+  store.dispatch({
+    type: "LEVEL_LOADED",
+    ...level,
+    playerPosition: level.byTile.playerStartingPosition
+  });
 });

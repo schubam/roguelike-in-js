@@ -1,4 +1,4 @@
-import { TILE_SIZE } from "./constants.js";
+const TILE_SIZE = 8;
 
 export function drawLevel(indexToPosition) {
   return function(context, fields) {

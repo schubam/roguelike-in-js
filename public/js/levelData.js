@@ -25,20 +25,24 @@ function doors(data, i2pos) {
   return data.reduce(reducer, []);
 }
 
-export const byTile = (data, i2pos) => ({
+const byTile = (data, i2pos) => ({
   playerStartingPosition: playerStartingPosition(data, i2pos),
   doors: doors(data, i2pos)
 });
 
-export const loadLevelData = level => {
-  return level1;
+const loadLevelData = async name => {
+  try {
+    const data = await fetch(`/js/levels/${name}.json`);
+    return data.json();
+  } catch (error) {
+    return console.error(error);
+  }
 };
 
-export const loadLevel = level => {
-  const levelData = loadLevelData(level);
+export const loadLevel = async level => {
+  const levelData = await loadLevelData(level);
   const i2pos = makeIndexToPosition(levelData.width);
   const pos2i = positionToIndex(levelData.width);
-
   return {
     level: levelData,
     byTile: byTile(levelData.data, i2pos),

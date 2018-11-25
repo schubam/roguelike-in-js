@@ -2,8 +2,7 @@ import { drawLevel, drawPlayer } from "./render.js";
 import { makeIndexToPosition } from "./levelData.js";
 
 export default class Camera {
-  constructor(context, width, height, store) {
-    this.context = context;
+  constructor(width, height, context, store) {
     this.width = width;
     this.height = height;
     this.topLeft = { x: 0, y: 0 };
@@ -13,6 +12,7 @@ export default class Camera {
     };
     this.scrollBoundaryX = 5;
     this.scrollBoundaryY = 5;
+    this.context = context;
     this.store = store;
   }
 
