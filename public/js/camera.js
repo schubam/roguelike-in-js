@@ -105,7 +105,7 @@ export default class Camera {
         x: this.topLeft.x + this.width,
         y: this.topLeft.y + i
       });
-      const lastMapIndexSlice = (i + 1) * width;
+      const lastMapIndexSlice = (this.topLeft.y + 1) * (i + 1) * width;
       const slicedIndex = Math.min(last, lastMapIndexSlice);
 
       const elems = data.slice(start, slicedIndex);
