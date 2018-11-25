@@ -10,14 +10,14 @@ function render(context) {
 
 function tryMovePlayer(from, to) {
   if (to.x < 0 || to.y < 0) {
-    console.log("can't move to ", to);
+    // console.log("can't move to ", to);
     return;
   }
 
   const toIndex = store.getState().level.positionToIndex(to);
   const field = store.getState().level.data[toIndex];
   if (["D", "W"].some(e => e === field)) {
-    console.log("can't move to ", to);
+    // console.log("Path blocked, can't move to ", to);
   } else {
     store.dispatch({ type: "PLAYER_MOVE", from, to });
   }

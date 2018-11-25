@@ -10,8 +10,8 @@ export default class Camera {
       x: Math.floor(this.width / 2) + this.topLeft.x,
       y: Math.floor(this.height / 2) + this.topLeft.y
     };
-    this.scrollBoundaryX = 5;
-    this.scrollBoundaryY = 5;
+    this.scrollBoundaryX = Math.min(5, Math.floor(width * 0.25));
+    this.scrollBoundaryY = Math.min(5, Math.floor(height * 0.25));
     this.context = context;
     this.store = store;
   }
@@ -33,9 +33,9 @@ export default class Camera {
 
   render() {
     const { level, playerPosition } = this.store.getState();
-    console.log(playerPosition);
-    console.log(this.topLeft);
-    
+    console.log("player position ", playerPosition);
+    console.log("camera topLeft ", this.topLeft);
+
     let movedCamera = false;
     if (playerPosition.direction) {
       if (playerPosition.direction.x === 1) {
