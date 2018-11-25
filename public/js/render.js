@@ -21,6 +21,10 @@ export function drawLevel(indexToPosition) {
           drawTreasure(context, x, y);
           break;
 
+        case "|":
+          drawOutOfBounds(context, x, y);
+          break;
+
         case "@":
           drawPlayerStarting(context, x, y);
           break;
@@ -59,6 +63,11 @@ function drawTreasure(context, x, y) {
 
 function drawWall(context, x, y) {
   context.fillStyle = "darkgrey";
+  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+}
+
+function drawOutOfBounds(context, x, y) {
+  context.fillStyle = "pink";
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 

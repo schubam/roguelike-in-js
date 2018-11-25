@@ -1,6 +1,12 @@
 import { drawLevel, drawPlayer } from "./render.js";
 import { makeIndexToPosition } from "./levelData.js";
 
+function fillArrayWithOutOfBounds(ary, maxElements) {
+  for (let i = 0; ary.length < maxElements; i++) {
+    ary.push("|");
+  }
+}
+
 export default class Camera {
   constructor(width, height, context, store) {
     this.width = width;
@@ -14,6 +20,18 @@ export default class Camera {
     this.scrollBoundaryY = Math.min(5, Math.floor(height * 0.25));
     this.context = context;
     this.store = store;
+  }
+
+  debug() {
+    console.log("----");
+    console.log("width ", this.width);
+    console.log("height ", this.height);
+    console.log("camera topLeft ", this.topLeft);
+    console.log(
+      `frame ${this.topLeft.x}, ${this.topLeft.x + this.width}-${
+        this.topLeft.y
+      }, ${this.topLeft.y + this.height}`
+    );
   }
 
   calculateCenter() {
@@ -33,8 +51,9 @@ export default class Camera {
 
   render() {
     const { level, playerPosition } = this.store.getState();
+
     console.log("player position ", playerPosition);
-    console.log("camera topLeft ", this.topLeft);
+    this.debug();
 
     let movedCamera = false;
     if (playerPosition.direction) {
@@ -74,9 +93,10 @@ export default class Camera {
   }
 
   cameraData(level) {
-    const { data, positionToIndex } = level;
+    const { data, positionToIndex, width } = level;
     let lines = [];
-    for (let i = 0; i < this.height; i = i + 1) {
+    let temp = [];
+    for (let i = 0; i < this.height; i++) {
       const start = positionToIndex({
         x: this.topLeft.x,
         y: this.topLeft.y + i
@@ -85,7 +105,15 @@ export default class Camera {
         x: this.topLeft.x + this.width,
         y: this.topLeft.y + i
       });
-      const elems = data.slice(start, last);
+      const lastMapIndexSlice = (i + 1) * width;
+      const slicedIndex = Math.min(last, lastMapIndexSlice);
+
+      const elems = data.slice(start, slicedIndex);
+
+      // insert out of bounds stuff
+      fillArrayWithOutOfBounds(elems, this.width);
+
+      temp.push(elems);
       lines = lines.concat(elems);
     }
 
