@@ -1,53 +1,49 @@
 import Grid from "./grid.js";
 
-export const makeIndexToPosition = w => index => ({
-  x: index % w,
-  y: Math.floor(index / w)
-});
-
-const positionToIndex = w => pos => pos.y * w + pos.x;
-
-function playerStartingPosition(grid, i2pos) {
-  const startingTile = grid.indexOf("@");
-  if (startingTile === -1) {
+function playerStartingPosition(grid) {
+  let pos;
+  grid.forEach((value, x, y) => {
+    if (value === "@") {
+      pos = { x, y };
+    }
+  });
+  if (!pos) {
     throw "Error: no player starting position found in map";
   }
-  return i2pos(startingTile);
+  return pos;
 }
 
-function doors(grid, i2pos) {
-  const reducer = (acc, value, index) => {
+function doors(grid) {
+  const acc = [];
+  grid.forEach((value, x, y) => {
     if (value === "D") {
-      acc.push(i2pos(index));
+      acc.push({ x, y });
     }
-    return acc;
-  };
-  return grid.reduce(reducer, []);
+  });
+  return acc;
 }
 
-const byTile = (grid, i2pos) => ({
-  playerStartingPosition: playerStartingPosition(grid, i2pos),
-  doors: doors(grid, i2pos)
+const byTile = grid => ({
+  playerStartingPosition: playerStartingPosition(grid),
+  doors: doors(grid)
 });
 
 const loadLevelData = async name => {
   try {
     const data = await fetch(`/js/levels/${name}.json`);
-    const grid = new Grid(await data.json());
+    const json = await data.json();
+    const grid = new Grid(json.width, json.height);
+    grid.setData(json.data);
     return grid;
   } catch (error) {
-    return console.error(error);
+    console.error("Error", error);
   }
 };
 
-export const loadLevel = async level => {
-  const grid = await loadLevelData(level);
-  const i2pos = makeIndexToPosition(grid.width);
-  const pos2i = positionToIndex(grid.width);
+export const loadLevel = async file => {
+  const grid = await loadLevelData(file);
   return {
-    level: grid,
-    byTile: byTile(grid, i2pos),
-    indexToPosition: i2pos,
-    positionToIndex: pos2i
+    grid,
+    byTile: byTile(grid)
   };
 };

@@ -7,7 +7,7 @@ function createStore(reducer) {
   const dispatch = action => {
     state = reducer(state, action);
     listeners.forEach(listener => listener());
-    // console.log(state);
+    console.log(state);
   };
 
   const subscribe = listener => {
@@ -42,9 +42,7 @@ const level = (state, action) => {
     case "LEVEL_LOADED": {
       return {
         ...state,
-        ...action.level,
-        indexToPosition: action.indexToPosition,
-        positionToIndex: action.positionToIndex
+        grid: action.grid
       };
     }
     default:

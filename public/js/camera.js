@@ -1,5 +1,5 @@
 import { drawLevel, drawPlayer } from "./render.js";
-import { makeIndexToPosition } from "./levelData.js";
+import Grid from "./grid.js";
 
 function fillArrayWithOutOfBounds(ary, maxElements) {
   for (let i = 0; ary.length < maxElements; i++) {
@@ -85,7 +85,7 @@ export default class Camera {
     }
 
     const cdata = this.cameraData(level);
-    drawLevel(makeIndexToPosition(this.width))(this.context, cdata);
+    drawLevel(this.context, cdata);
     drawPlayer(this.context, {
       x: playerPosition.x - this.topLeft.x,
       y: playerPosition.y - this.topLeft.y
@@ -93,30 +93,15 @@ export default class Camera {
   }
 
   cameraData(level) {
-    const { data, positionToIndex, width } = level;
-    let lines = [];
-    let temp = [];
+    const { grid } = level;
+    let rows = [];
+    let row;
     for (let i = 0; i < this.height; i++) {
-      const start = positionToIndex({
-        x: this.topLeft.x,
-        y: this.topLeft.y + i
-      });
-      const last = positionToIndex({
-        x: this.topLeft.x + this.width,
-        y: this.topLeft.y + i
-      });
-      const lastMapIndexSlice = (this.topLeft.y + 1) * (i + 1) * width;
-      const slicedIndex = Math.min(last, lastMapIndexSlice);
-
-      const elems = data.slice(start, slicedIndex);
-
-      // insert out of bounds stuff
-      fillArrayWithOutOfBounds(elems, this.width);
-
-      temp.push(elems);
-      lines = lines.concat(elems);
+      row = grid.getRow(this.topLeft.x, this.topLeft.y + i, this.width);
+      rows = rows.concat(row);
     }
-
-    return lines;
+    const newGrid = new Grid(this.width, this.height);
+    newGrid.setData(rows);
+    return newGrid;
   }
 }

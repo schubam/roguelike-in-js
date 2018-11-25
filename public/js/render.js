@@ -1,39 +1,37 @@
 const TILE_SIZE = 8;
 
-export function drawLevel(indexToPosition) {
-  return function(context, fields) {
-    fields.forEach((tile, index) => {
-      let { x, y } = indexToPosition(index);
-      switch (tile) {
-        case " ":
-          drawFloor(context, x, y);
-          break;
+export function drawLevel(context, data) {
+  data.forEach((tile, x, y) => {
+    switch (tile) {
+      case " ":
+        drawFloor(context, x, y);
+        break;
 
-        case "W":
-          drawWall(context, x, y);
-          break;
+      case "W":
+        drawWall(context, x, y);
+        break;
 
-        case "D":
-          drawDoor(context, x, y);
-          break;
+      case "D":
+        drawDoor(context, x, y);
+        break;
 
-        case "X":
-          drawTreasure(context, x, y);
-          break;
+      case "X":
+        drawTreasure(context, x, y);
+        break;
 
-        case "|":
-          drawOutOfBounds(context, x, y);
-          break;
+      case "|":
+      case undefined:
+        drawOutOfBounds(context, x, y);
+        break;
 
-        case "@":
-          drawPlayerStarting(context, x, y);
-          break;
+      case "@":
+        drawPlayerStarting(context, x, y);
+        break;
 
-        default:
-          break;
-      }
-    });
-  };
+      default:
+        break;
+    }
+  });
 }
 
 export function drawPlayer(context, playerPosition) {

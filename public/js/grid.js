@@ -1,23 +1,50 @@
 export default class Grid {
-  constructor(json) {
-    this.width = json.width;
-    this.height = json.height;
-    this.data = json.data;
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+    this.data = [];
+  }
+
+  setData(data) {
+    if (data.length != this.width * this.height) {
+      throw `Error: data.length (${
+        data.length
+      }) != number of tiles in grid, should be ${this.width * this.height}`;
+    }
+    this.forEach((_, x, y) => {
+      let val = data[x + y * this.height];
+      this.set(x, y, val);
+    });
   }
 
   set(x, y, value) {
-    this.data[this.height * y + x] = value;
+    if (!this.data[x]) {
+      this.data[x] = [];
+    }
+    this.data[x][y] = value;
   }
 
   get(x, y) {
-    this.data[this.height * y + x];
+    const col = this.data[x];
+    if (col) {
+      return col[y];
+    }
+    return undefined;
   }
 
-  indexOf(i) {
-    return this.data.indexOf(i);
+  getRow(x, y, size) {
+    const data = [];
+    for (let i = 0; i < size; i++) {
+      data.push(this.get(x + i, y));
+    }
+    return data;
   }
 
-  reduce(reducer, memo) {
-    return this.data.reduce(reducer, memo);
+  forEach(callback) {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        callback(this.get(i, j), i, j);
+      }
+    }
   }
 }
