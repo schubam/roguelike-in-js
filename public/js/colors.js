@@ -7,4 +7,4 @@ export const treasure = "yellow";
 export const wall = "darkgrey";
 export const floor = "darkgreen";
 export const floorStroke = "black";
-export const outOfBounds = "pink";
+export const outOfBounds = "#313131";

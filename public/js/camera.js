@@ -1,5 +1,6 @@
 import { drawLevel, drawPlayer, createBuffer } from "./render.js";
 import Grid from "./grid.js";
+import Compositor from "./compositor.js";
 
 export default class Camera {
   constructor(width, height, store) {
@@ -13,6 +14,9 @@ export default class Camera {
     this.scrollBoundaryX = Math.min(5, Math.floor(width * 0.25));
     this.scrollBoundaryY = Math.min(5, Math.floor(height * 0.25));
     this.store = store;
+    this.compositor = new Compositor();
+    this.buffer = createBuffer(width, height);
+    this.context = this.buffer.getContext("2d");
   }
 
   debug() {
@@ -43,27 +47,27 @@ export default class Camera {
   }
 
   render() {
-    const { level, playerPosition } = this.store.getState();
+    const { level, player } = this.store.getState();
 
-    this.followPlayer(playerPosition, playerPosition.direction);
+    if (!level || !player || !player.position) {
+      return () => undefined;
+    }
+    const { position, direction } = player;
+    this.followPlayer(position, direction);
 
     const cdata = this.cameraData(level);
 
-    const buffer = createBuffer(this.width, this.height);
-    const context = buffer.getContext("2d");
-
-    const layers = [];
-    layers.push(drawLevel(this.width, this.height, cdata));
-    layers.push(
+    this.compositor.add(drawLevel(this.width, this.height, cdata));
+    this.compositor.add(
       drawPlayer(this.width, this.height, {
-        x: playerPosition.x - this.topLeft.x,
-        y: playerPosition.y - this.topLeft.y
+        x: position.x - this.topLeft.x,
+        y: position.y - this.topLeft.y
       })
     );
-    layers.forEach(layer => layer(context));
-
-    return function(ctx, x, y) {
-      ctx.drawImage(buffer, x, y);
+    this.compositor.draw(this.context);
+    const self = this;
+    return function(ctx) {
+      ctx.drawImage(self.buffer, 0, 8);
     };
   }
 

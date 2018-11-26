@@ -48,14 +48,14 @@ export function drawLevel(width, height, data) {
   };
 }
 
-export function drawPlayer(width, height, playerPosition) {
+export function drawPlayer(width, height, pos) {
   const buffer = createBuffer(width, height);
   const context = buffer.getContext("2d");
 
   context.fillStyle = COLORS.player;
   context.fillRect(
-    playerPosition.x * TILE_SIZE,
-    playerPosition.y * TILE_SIZE,
+    pos.x * TILE_SIZE,
+    pos.y * TILE_SIZE,
     TILE_SIZE,
     TILE_SIZE
   );

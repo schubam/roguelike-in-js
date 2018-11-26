@@ -1,3 +1,5 @@
+import { playerDefaults } from "./player.js";
+
 function createStore(reducer) {
   let state = {};
   let listeners = [];
@@ -60,15 +62,15 @@ const byTile = (state, action) => {
   }
 };
 
-const playerPosition = (state, action) => {
+const player = (state = playerDefaults, action) => {
   switch (action.type) {
     case "LEVEL_LOADED": {
-      return { ...state, ...action.playerPosition };
+      return { ...state, position: action.position };
     }
     case "PLAYER_MOVE": {
       return {
         ...state,
-        ...action.to,
+        position: action.to,
         direction: {
           x: action.to.x - action.from.x,
           y: action.to.y - action.from.y
@@ -84,7 +86,7 @@ const playerPosition = (state, action) => {
 const roguelikeApp = combineReducers({
   level,
   byTile,
-  playerPosition
+  player
 });
 
 export const createGame = () => {
