@@ -1,12 +1,8 @@
 import Camera from "./camera.js";
 import KeyboardState, { RELEASED } from "./input.js";
 import { createGame } from "./store.js";
+import { loadFont } from "./font.js";
 import { loadLevel } from "./levelData.js";
-
-function render(context) {
-  drawLevel(context);
-  drawPlayer(context);
-}
 
 function tryMovePlayer(from, to) {
   const grid = store.getState().level.grid;
@@ -59,41 +55,40 @@ function setupInput() {
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 const store = createGame();
-const camera = new Camera(26, 20, store);
-const camera2 = new Camera(15, 5, store);
-const camera3 = new Camera(10, 5, store);
+const camera = new Camera(26, 26, store);
 
-function titlebar(context) {
-  context.fillStyle = "blue";
-  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
-}
+Promise.all([loadFont()]).then(([font]) => {
+  function titlebar(context) {
+    const text = "Roguelike";
+    font.print(text, context, 13 * 8 - Math.floor(text.length / 2), 0); // WTF?
+  }
 
-function sidebar(context) {
-  context.fillStyle = "blue";
-  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
-}
+  function sidebar(context) {
+    context.fillStyle = "blue";
+    context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
+  }
 
-function statusbar(context) {
-  context.fillStyle = "blue";
-  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
-}
+  function statusbar(context) {
+    font.print(`Level:1  Hits:12(12) Str:16(16)`, context, 0, 27*8);
+    font.print(`Armor:5  Gold:0  Exp:1/5`, context, 0, 28*8);
+    font.print(`Attacking --->`, context, 0, 29*8);
+  }
 
-titlebar(context);
-sidebar(context);
-statusbar(context);
+  titlebar(context);
+  sidebar(context);
+  statusbar(context);
 
-store.subscribe(() => {
-  camera.render()(context, 0, 8);
-  camera2.render()(context, 0, 160 + 8 + 8);
-  camera3.render()(context, 16 * 8, 160 + 8 + 8);
-});
+  store.subscribe(() => {
+    camera.render()(context, 0, 8);
+  });
 
-setupInput();
+  setupInput();
 
-loadLevel("level1").then(level => {
-  store.dispatch({
-    type: "LEVEL_LOADED",
-    ...level,
-    playerPosition: level.byTile.playerStartingPosition
+  loadLevel("level1").then(level => {
+    store.dispatch({
+      type: "LEVEL_LOADED",
+      ...level,
+      playerPosition: level.byTile.playerStartingPosition
+    });
   });
 });
