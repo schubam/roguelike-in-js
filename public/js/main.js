@@ -3,22 +3,8 @@ import KeyboardState, { RELEASED } from "./input.js";
 import { createGame } from "./store.js";
 import { loadFont } from "./font.js";
 import { loadLevel } from "./levelData.js";
-
-function tryMovePlayer(from, to) {
-  const grid = store.getState().level.grid;
-  const { width, height } = grid;
-  if (to.x < 0 || to.y < 0 || to.x >= width || to.y >= height) {
-    // console.log("can't move to ", to);
-    return;
-  }
-
-  const field = grid.get(to.x, to.y);
-  if (["D", "W"].some(e => e === field)) {
-    // console.log("Path blocked, can't move to ", to);
-  } else {
-    store.dispatch({ type: "PLAYER_MOVE", from, to });
-  }
-}
+import { tryMovePlayer } from "./tryMovePlayer.js";
+import * as COLORS from "./colors.js";
 
 function setupInput() {
   const input = new KeyboardState();
@@ -54,7 +40,7 @@ function setupInput() {
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
-const store = createGame();
+export const store = createGame();
 const camera = new Camera(26, 26, store);
 
 Promise.all([loadFont()]).then(([font]) => {
@@ -64,21 +50,29 @@ Promise.all([loadFont()]).then(([font]) => {
   }
 
   function sidebar(context) {
-    context.fillStyle = "blue";
+    context.fillStyle = COLORS.sidebar;
     context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
   }
 
   function statusbar(context) {
-    font.print(`Level:1  Hits:12(12) Str:16(16)`, context, 0, 27*8);
-    font.print(`Armor:5  Gold:0  Exp:1/5`, context, 0, 28*8);
-    font.print(`Attacking --->`, context, 0, 29*8);
+    const area = { x: 0, y: 27 * 8, width: 32 * 8, height: 3 * 8 };
+    clearBackground(context, area);
+
+    const pos = store.getState().playerPosition;
+    font.print(`Level:1  Hits:12(12) Str:16(16)`, context, 0, 27 * 8);
+    font.print(
+      `Armor:5  Gold:0  Exp:1/5 (${pos.x + "," + pos.y})`,
+      context,
+      0,
+      28 * 8
+    );
+    font.print(`Attacking --->`, context, 0, 29 * 8);
   }
 
-  titlebar(context);
-  sidebar(context);
-  statusbar(context);
-
   store.subscribe(() => {
+    titlebar(context);
+    sidebar(context);
+    statusbar(context);
     camera.render()(context, 0, 8);
   });
 
@@ -92,3 +86,10 @@ Promise.all([loadFont()]).then(([font]) => {
     });
   });
 });
+
+function clearBackground(context, area) {
+  const oldFillStyle = context.fillStyle;
+  context.fillStyle = COLORS.background;
+  context.fillRect(area.x, area.y, area.width, area.height);
+  context.fillStyle = oldFillStyle;
+}

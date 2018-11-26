@@ -1,3 +1,5 @@
+import * as COLORS from "./colors.js";
+
 const TILE_SIZE = 8;
 
 export function createBuffer(width, height) {
@@ -50,7 +52,7 @@ export function drawPlayer(width, height, playerPosition) {
   const buffer = createBuffer(width, height);
   const context = buffer.getContext("2d");
 
-  context.fillStyle = "red";
+  context.fillStyle = COLORS.player;
   context.fillRect(
     playerPosition.x * TILE_SIZE,
     playerPosition.y * TILE_SIZE,
@@ -63,33 +65,33 @@ export function drawPlayer(width, height, playerPosition) {
 }
 
 function drawPlayerStarting(context, x, y) {
-  context.fillStyle = "blue";
+  context.fillStyle = COLORS.startPosition;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
 function drawDoor(context, x, y) {
-  context.fillStyle = "brown";
+  context.fillStyle = COLORS.door;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
 function drawTreasure(context, x, y) {
-  context.fillStyle = "yellow";
+  context.fillStyle = COLORS.treasure;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
 function drawWall(context, x, y) {
-  context.fillStyle = "darkgrey";
+  context.fillStyle = COLORS.wall;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
 function drawOutOfBounds(context, x, y) {
-  context.fillStyle = "pink";
+  context.fillStyle = COLORS.outOfBounds;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
 function drawFloor(context, x, y) {
-  context.fillStyle = "darkgreen";
+  context.fillStyle = COLORS.floor;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-  context.strokeStyle = "black";
+  context.strokeStyle = COLORS.floorStroke;
   context.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }

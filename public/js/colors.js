@@ -1,0 +1,10 @@
+export const background = "black";
+export const sidebar = "#333333";
+export const player = "red";
+export const startPosition = "blue";
+export const door = "brown";
+export const treasure = "yellow";
+export const wall = "darkgrey";
+export const floor = "darkgreen";
+export const floorStroke = "black";
+export const outOfBounds = "pink";
