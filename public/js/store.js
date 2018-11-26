@@ -1,4 +1,5 @@
 import { playerDefaults } from "./player.js";
+import Grid from "./grid.js";
 
 function createStore(reducer) {
   let state = {};
@@ -41,12 +42,25 @@ const combineReducers = reducers => {
 
 const level = (state, action) => {
   switch (action.type) {
+    case "OPEN_DOOR_WITH_KEY":
+    case "PICKUP_TREASURE":
+    case "PICKUP_KEY": {
+      const grid = new Grid(state.grid.width, state.grid.height);
+      grid.data = state.grid.data;
+      grid.set(action.position.x, action.position.y, " ");
+      return {
+        ...state,
+        grid
+      };
+    }
+
     case "LEVEL_LOADED": {
       return {
         ...state,
         grid: action.grid
       };
     }
+
     default:
       return state;
   }
@@ -64,9 +78,22 @@ const byTile = (state, action) => {
 
 const player = (state = playerDefaults, action) => {
   switch (action.type) {
+    case "OPEN_DOOR_WITH_KEY": {
+      return { ...state, keys: state.keys - 1 };
+    }
+
+    case "PICKUP_KEY": {
+      return { ...state, keys: state.keys + 1 };
+    }
+
+    case "PICKUP_TREASURE": {
+      return { ...state, gold: state.gold + 10 };
+    }
+
     case "LEVEL_LOADED": {
       return { ...state, position: action.position };
     }
+
     case "PLAYER_MOVE": {
       return {
         ...state,
@@ -85,6 +112,15 @@ const player = (state = playerDefaults, action) => {
 
 const status = (state = { messages: [], level: 0 }, action) => {
   switch (action.type) {
+    case "PICKUP_TREASURE":
+    case "OPEN_DOOR_WITH_KEY":
+    case "PICKUP_KEY":
+    case "STATUS_MESSAGE": {
+      const newState = Object.assign({}, state);
+      newState.messages.push(action.message);
+      return newState;
+    }
+
     case "LEVEL_LOADED": {
       const newState = Object.assign({}, state);
       newState.level = newState.level + 1;

@@ -22,6 +22,10 @@ export function drawLevel(width, height, data) {
         drawWall(context, x, y);
         break;
 
+      case "K":
+        drawKey(context, x, y);
+        break;
+
       case "D":
         drawDoor(context, x, y);
         break;
@@ -66,6 +70,11 @@ export function drawPlayer(width, height, pos) {
 
 function drawPlayerStarting(context, x, y) {
   context.fillStyle = COLORS.startPosition;
+  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+}
+
+function drawKey(context, x, y) {
+  context.fillStyle = COLORS.key;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 

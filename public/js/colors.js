@@ -5,6 +5,7 @@ export const startPosition = "blue";
 export const door = "brown";
 export const treasure = "yellow";
 export const wall = "darkgrey";
+export const key = "#FFC30D";
 export const floor = "darkgreen";
 export const floorStroke = "black";
 export const outOfBounds = "#313131";

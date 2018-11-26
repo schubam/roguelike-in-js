@@ -13,6 +13,7 @@ function playerStat(player, attr, pad, maxPad = 2) {
     gold: "Gold",
     experience: "XP",
     strength: "Str",
+    keys: "Keys",
     armor: "AC"
   };
   return `${lookup[attr]}:${player[attr].toString().padStart(maxPad, pad)} `;
@@ -57,6 +58,7 @@ function statusbar(context, font, store) {
     .padStart(2, " ")}/${player.health.toString().padStart(2, " ")} `;
   line2Text += playerStat(player, "strength", 0);
   line2Text += playerStat(player, "armor", " ");
+  line2Text += playerStat(player, "keys", " ");
   font.print(line2Text, context, line2.x, line2.y);
 
   const text = status.messages[status.messages.length - 1];
