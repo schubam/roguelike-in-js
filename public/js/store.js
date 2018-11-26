@@ -83,10 +83,25 @@ const player = (state = playerDefaults, action) => {
   }
 };
 
+const status = (state = { messages: [], level: 0 }, action) => {
+  switch (action.type) {
+    case "LEVEL_LOADED": {
+      const newState = Object.assign({}, state);
+      newState.level = newState.level + 1;
+      newState.messages.push(`Entered level ${newState.level}`);
+      return newState;
+    }
+
+    default:
+      return state;
+  }
+};
+
 const roguelikeApp = combineReducers({
   level,
   byTile,
-  player
+  player,
+  status
 });
 
 export const createGame = () => {

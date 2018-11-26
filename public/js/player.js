@@ -4,6 +4,5 @@ export const playerDefaults = {
   strength: 6,
   armor: 2,
   gold: 0,
-  experience: 0,
-  level: 1
+  experience: 0
 };

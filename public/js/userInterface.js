@@ -42,10 +42,10 @@ function statusbar(context, font, store) {
   clearBackground(context, area);
 
   const state = store.getState();
-  const { player } = state;
+  const { player, status } = state;
 
   let line1Text = "";
-  line1Text += playerStat(player, "level", 0);
+  line1Text += playerStat(status, "level", 0);
   line1Text += playerStat(player, "gold", " ", 3);
   line1Text += playerStat(player, "experience", " ", 3);
   line1Text += ` (${player.position.x + "," + player.position.y})`;
@@ -59,7 +59,8 @@ function statusbar(context, font, store) {
   line2Text += playerStat(player, "armor", " ");
   font.print(line2Text, context, line2.x, line2.y);
 
-  font.print(`mock text.. what is happening?`, context, line3.x, line3.y);
+  const text = status.messages[status.messages.length - 1];
+  font.print(text, context, line3.x, line3.y);
 }
 
 export function createUserInterfaceLayer(font, store) {
