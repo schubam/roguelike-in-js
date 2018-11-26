@@ -1,9 +1,9 @@
 import Camera from "./camera.js";
 import * as COLORS from "./colors.js";
 import { loadFont } from "./font.js";
+import { setupInput } from "./input.js";
 import { loadLevel } from "./levelData.js";
 import { createGame } from "./store.js";
-import { setupInput } from "./input.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");

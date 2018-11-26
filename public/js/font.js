@@ -1,3 +1,5 @@
+import { createBuffer } from "./render.js";
+
 class SpriteSheet {
   constructor(image, width, height) {
     this.image = image;
@@ -7,10 +9,7 @@ class SpriteSheet {
   }
 
   define(name, x, y, width, height) {
-    const buffer = document.createElement("canvas");
-    buffer.width = width;
-    buffer.height = height;
-
+    const buffer = createBuffer(width, height);
     const context = buffer.getContext("2d");
     context.drawImage(this.image, x, y, width, height, 0, 0, width, height);
     this.tiles.set(name, buffer);
