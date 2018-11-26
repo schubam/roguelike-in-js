@@ -11,7 +11,7 @@ const context = canvas.getContext("2d");
 const store = createGame();
 
 setupInput(store);
-const camera = new Camera(26, 26, store);
+const camera = new Camera(32, 26, store);
 const compositor = new Compositor();
 
 Promise.all([loadFont(), loadLevel("level1")]).then(([font, level]) => {

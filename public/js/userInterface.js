@@ -20,7 +20,8 @@ function playerStat(player, attr, pad, maxPad = 2) {
 
 function titlebar(context, font, store) {
   const text = "Roguelike";
-  font.print(text, context, 13 * 8 - Math.floor(text.length / 2), 0); // WTF?
+  const half = Math.floor(text.length / 2);
+  font.print(text, context, 12 * 8, 0); // WTF?
 }
 
 function sidebar(context, font, store) {
@@ -51,7 +52,9 @@ function statusbar(context, font, store) {
 
   font.print(line1Text, context, line1.x, line1.y);
   let line2Text = "";
-  line2Text += `${player.currentHealth.toString().padStart(2, " ")}/${player.health.toString().padStart(2, " ")}HP `;
+  line2Text += `HP:${player.currentHealth
+    .toString()
+    .padStart(2, " ")}/${player.health.toString().padStart(2, " ")} `;
   line2Text += playerStat(player, "strength", 0);
   line2Text += playerStat(player, "armor", " ");
   font.print(line2Text, context, line2.x, line2.y);
@@ -62,7 +65,7 @@ function statusbar(context, font, store) {
 export function createUserInterfaceLayer(font, store) {
   return function drawUserInterface(context) {
     titlebar(context, font, store);
-    sidebar(context, font, store);
+    // sidebar(context, font, store);
     statusbar(context, font, store);
   };
 }
