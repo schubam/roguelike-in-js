@@ -1,7 +1,7 @@
 export const background = "black";
 export const sidebar = "#333333";
-export const player = "red";
-export const startPosition = "blue";
+export const player = "blue";
+export const startPosition = "#607F26";
 export const door = "brown";
 export const treasure = "yellow";
 export const wall = "darkgrey";
@@ -9,3 +9,4 @@ export const key = "#FFC30D";
 export const floor = "darkgreen";
 export const floorStroke = "black";
 export const outOfBounds = "#313131";
+export const enemy = "#FF5380";
