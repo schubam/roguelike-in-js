@@ -49,7 +49,7 @@ function statusbar(context, font, store) {
   line1Text += playerStat(status, "level", 0);
   line1Text += playerStat(player, "gold", " ", 3);
   line1Text += playerStat(player, "experience", " ", 3);
-  line1Text += ` (${player.position.x + "," + player.position.y})`;
+  line1Text += `(${player.position.x + "," + player.position.y})`;
 
   font.print(line1Text, context, line1.x, line1.y);
   let line2Text = "";

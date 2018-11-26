@@ -7,8 +7,8 @@ I need to research the commands in rogue. I don't know what look does, for examp
 ## Step 3 - It's a boy!
 
 - ~~display map characters~~
-- display status lines
-- display log messages
+- ~~display status lines~~
+- ~~display log messages~~
 - ~~handle user input~~
 - ~~make player walk around~~
 
@@ -19,4 +19,5 @@ I need to research the commands in rogue. I don't know what look does, for examp
 - ~~scrolling of map~~
 - ~~collide with walls~~
 - look command
-- open/close doors
+- ~~open/close doors~~
+- close doors
