@@ -1,5 +1,7 @@
-export const PRESSED = 1;
-export const RELEASED = 0;
+import { tryMovePlayer } from "./tryMovePlayer.js";
+
+const PRESSED = 1;
+const RELEASED = 0;
 
 class KeyboardState {
   constructor() {
@@ -42,6 +44,38 @@ class KeyboardState {
       });
     });
   }
+}
+
+export function setupInput(store) {
+  const input = new KeyboardState();
+  input.addMapping("ArrowRight", keyState => {
+    const pos = store.getState().playerPosition;
+    if (keyState == RELEASED) {
+      tryMovePlayer(pos, { ...pos, x: pos.x + 1 });
+    }
+  });
+
+  input.addMapping("ArrowLeft", keyState => {
+    if (keyState == RELEASED) {
+      const pos = store.getState().playerPosition;
+      tryMovePlayer(pos, { ...pos, x: pos.x - 1 });
+    }
+  });
+
+  input.addMapping("ArrowUp", keyState => {
+    if (keyState == RELEASED) {
+      const pos = store.getState().playerPosition;
+      tryMovePlayer(pos, { ...pos, y: pos.y - 1 });
+    }
+  });
+
+  input.addMapping("ArrowDown", keyState => {
+    if (keyState == RELEASED) {
+      const pos = store.getState().playerPosition;
+      tryMovePlayer(pos, { ...pos, y: pos.y + 1 });
+    }
+  });
+  input.listenTo(window);
 }
 
 export default KeyboardState;

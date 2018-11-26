@@ -1,46 +1,15 @@
 import Camera from "./camera.js";
-import KeyboardState, { RELEASED } from "./input.js";
-import { createGame } from "./store.js";
+import * as COLORS from "./colors.js";
 import { loadFont } from "./font.js";
 import { loadLevel } from "./levelData.js";
-import { tryMovePlayer } from "./tryMovePlayer.js";
-import * as COLORS from "./colors.js";
-
-function setupInput() {
-  const input = new KeyboardState();
-  input.addMapping("ArrowRight", keyState => {
-    const pos = store.getState().playerPosition;
-    if (keyState == RELEASED) {
-      tryMovePlayer(pos, { ...pos, x: pos.x + 1 });
-    }
-  });
-
-  input.addMapping("ArrowLeft", keyState => {
-    if (keyState == RELEASED) {
-      const pos = store.getState().playerPosition;
-      tryMovePlayer(pos, { ...pos, x: pos.x - 1 });
-    }
-  });
-
-  input.addMapping("ArrowUp", keyState => {
-    if (keyState == RELEASED) {
-      const pos = store.getState().playerPosition;
-      tryMovePlayer(pos, { ...pos, y: pos.y - 1 });
-    }
-  });
-
-  input.addMapping("ArrowDown", keyState => {
-    if (keyState == RELEASED) {
-      const pos = store.getState().playerPosition;
-      tryMovePlayer(pos, { ...pos, y: pos.y + 1 });
-    }
-  });
-  input.listenTo(window);
-}
+import { createGame } from "./store.js";
+import { setupInput } from "./input.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 export const store = createGame();
+
+setupInput(store);
 const camera = new Camera(26, 26, store);
 
 Promise.all([loadFont()]).then(([font]) => {
@@ -75,8 +44,6 @@ Promise.all([loadFont()]).then(([font]) => {
     statusbar(context);
     camera.render()(context, 0, 8);
   });
-
-  setupInput();
 
   loadLevel("level1").then(level => {
     store.dispatch({
