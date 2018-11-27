@@ -1,6 +1,6 @@
 import Grid from "./grid.js";
 
-function playerStartingPosition(grid) {
+export function playerStartingPosition(grid) {
   let pos;
   grid.forEach((value, x, y) => {
     if (value === "@") {
@@ -13,20 +13,19 @@ function playerStartingPosition(grid) {
   return pos;
 }
 
-function doors(grid) {
+function findTiles(tile, grid) {
   const acc = [];
   grid.forEach((value, x, y) => {
-    if (value === "D") {
+    if (value === tile) {
       acc.push({ x, y });
     }
   });
   return acc;
 }
 
-const byTile = grid => ({
-  playerStartingPosition: playerStartingPosition(grid),
-  doors: doors(grid)
-});
+export function findEnemies(grid) {
+  return findTiles("#", grid);
+}
 
 const loadLevelData = async name => {
   try {
@@ -42,8 +41,5 @@ const loadLevelData = async name => {
 
 export const loadLevel = async file => {
   const grid = await loadLevelData(file);
-  return {
-    grid,
-    byTile: byTile(grid)
-  };
+  return { grid };
 };

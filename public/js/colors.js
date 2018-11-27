@@ -9,4 +9,4 @@ export const key = "#FFC30D";
 export const floor = "darkgreen";
 export const floorStroke = "black";
 export const outOfBounds = "#313131";
-export const enemy = "#FF5380";
+export const enemy = "red";

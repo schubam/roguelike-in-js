@@ -13,38 +13,45 @@ export function drawLevel(width, height, data) {
   const context = buffer.getContext("2d");
 
   data.forEach((tile, x, y) => {
-    switch (tile) {
-      case " ":
-        drawFloor(context, x, y);
-        break;
+    if (!tile) {
+      drawOutOfBounds(context, x, y);
+    } else {
+      switch (tile[0]) {
+        case " ":
+          drawFloor(context, x, y);
+          break;
 
-      case "W":
-        drawWall(context, x, y);
-        break;
+        case "W":
+          drawWall(context, x, y);
+          break;
 
-      case "K":
-        drawKey(context, x, y);
-        break;
+        case "K":
+          drawKey(context, x, y);
+          break;
 
-      case "D":
-        drawDoor(context, x, y);
-        break;
+        case "D":
+          drawDoor(context, x, y);
+          break;
 
-      case "X":
-        drawGold(context, x, y);
-        break;
+        case "#":
+          drawEnemy(context, x, y);
+          break;
 
-      case "|":
-      case undefined:
-        drawOutOfBounds(context, x, y);
-        break;
+        case "X":
+          drawGold(context, x, y);
+          break;
 
-      case "@":
-        drawPlayerStarting(context, x, y);
-        break;
+        case undefined:
+          drawOutOfBounds(context, x, y);
+          break;
 
-      default:
-        break;
+        case "@":
+          drawPlayerStarting(context, x, y);
+          break;
+
+        default:
+          break;
+      }
     }
   });
   return function(ctx) {
@@ -57,12 +64,7 @@ export function drawPlayer(width, height, pos) {
   const context = buffer.getContext("2d");
 
   context.fillStyle = COLORS.player;
-  context.fillRect(
-    pos.x * TILE_SIZE,
-    pos.y * TILE_SIZE,
-    TILE_SIZE,
-    TILE_SIZE
-  );
+  context.fillRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   return function(ctx) {
     ctx.drawImage(buffer, 0, 0);
   };
@@ -80,6 +82,11 @@ function drawKey(context, x, y) {
 
 function drawDoor(context, x, y) {
   context.fillStyle = COLORS.door;
+  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+}
+
+function drawEnemy(context, x, y) {
+  context.fillStyle = COLORS.enemy;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 

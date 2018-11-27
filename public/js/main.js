@@ -5,6 +5,7 @@ import { loadLevel } from "./levelData.js";
 import { createGame } from "./store.js";
 import Compositor from "./compositor.js";
 import { createUserInterfaceLayer } from "./userInterface.js";
+import { actEnemy } from "./enemies.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
@@ -22,9 +23,5 @@ Promise.all([loadFont(), loadLevel("level1")]).then(([font, level]) => {
     camera.render()(context);
   });
 
-  store.dispatch({
-    type: "LEVEL_LOADED",
-    ...level,
-    position: level.byTile.playerStartingPosition
-  });
+  store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });
 });

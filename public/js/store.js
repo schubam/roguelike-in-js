@@ -1,5 +1,6 @@
 import { playerDefaults } from "./player.js";
 import Grid from "./grid.js";
+import { playerStartingPosition, findEnemies } from "./levelData.js";
 
 function createStore(reducer) {
   let state = {};
@@ -66,16 +67,6 @@ const level = (state, action) => {
   }
 };
 
-const byTile = (state, action) => {
-  switch (action.type) {
-    case "LEVEL_LOADED": {
-      return { ...state, ...action.byTile };
-    }
-    default:
-      return state;
-  }
-};
-
 const player = (state = playerDefaults, action) => {
   switch (action.type) {
     case "OPEN_DOOR_WITH_KEY": {
@@ -91,7 +82,7 @@ const player = (state = playerDefaults, action) => {
     }
 
     case "LEVEL_LOADED": {
-      return { ...state, position: action.position };
+      return { ...state, position: playerStartingPosition(action.grid) };
     }
 
     case "PLAYER_MOVE": {
@@ -103,6 +94,21 @@ const player = (state = playerDefaults, action) => {
           y: action.to.y - action.from.y
         }
       };
+    }
+
+    default:
+      return state;
+  }
+};
+
+const enemies = (state = {}, action) => {
+  switch (action.type) {
+    case "LEVEL_LOADED": {
+      return { positions: findEnemies(action.grid) };
+    }
+
+    case "PLAYER_MOVE": {
+      return state;
     }
 
     default:
@@ -135,8 +141,8 @@ const status = (state = { messages: [], level: 0 }, action) => {
 
 const roguelikeApp = combineReducers({
   level,
-  byTile,
   player,
+  enemies,
   status
 });
 
