@@ -5,7 +5,6 @@ import { loadLevel } from "./levelData.js";
 import { createGame } from "./store.js";
 import Compositor from "./compositor.js";
 import { createUserInterfaceLayer } from "./userInterface.js";
-import { actEnemy } from "./enemies.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");

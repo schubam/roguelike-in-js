@@ -1,4 +1,4 @@
-import { drawLevel, drawPlayer, createBuffer } from "./render.js";
+import { drawLevel, drawPlayer, drawEnemies, createBuffer } from "./render.js";
 import Grid from "./grid.js";
 import Compositor from "./compositor.js";
 
@@ -47,23 +47,30 @@ export default class Camera {
   }
 
   render() {
-    const { level, player } = this.store.getState();
-
-    if (!level || !player || !player.position) {
-      return () => undefined;
-    }
+    const { level, player, enemies } = this.store.getState();
     const { position, direction } = player;
+
     this.followPlayer(position, direction);
 
-    const cdata = this.cameraData(level);
-
-    this.compositor.add(drawLevel(this.width, this.height, cdata));
+    this.compositor.add(
+      drawLevel(this.width, this.height, this.cameraData(level))
+    );
     this.compositor.add(
       drawPlayer(this.width, this.height, {
         x: position.x - this.topLeft.x,
         y: position.y - this.topLeft.y
       })
     );
+    const positions = Object.entries(enemies)
+      .map(a => a[1])
+      .map(enemy => {
+        const pos = {
+          x: enemy.position.x - this.topLeft.x,
+          y: enemy.position.y - this.topLeft.y
+        };
+        return pos;
+      });
+    this.compositor.add(drawEnemies(this.width, this.height, positions));
     this.compositor.draw(this.context);
     const self = this;
     return function(ctx) {

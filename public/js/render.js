@@ -33,10 +33,6 @@ export function drawLevel(width, height, data) {
           drawDoor(context, x, y);
           break;
 
-        case "#":
-          drawEnemy(context, x, y);
-          break;
-
         case "X":
           drawGold(context, x, y);
           break;
@@ -70,6 +66,23 @@ export function drawPlayer(width, height, pos) {
   };
 }
 
+export function drawEnemies(width, height, enemies) {
+  const buffer = createBuffer(width, height);
+  const context = buffer.getContext("2d");
+  enemies.forEach(pos => {
+    context.fillStyle = COLORS.enemy;
+    context.fillRect(
+      pos.x * TILE_SIZE,
+      pos.y * TILE_SIZE,
+      TILE_SIZE,
+      TILE_SIZE
+    );
+  });
+  return function(ctx) {
+    ctx.drawImage(buffer, 0, 0);
+  };
+}
+
 function drawPlayerStarting(context, x, y) {
   context.fillStyle = COLORS.startPosition;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -82,11 +95,6 @@ function drawKey(context, x, y) {
 
 function drawDoor(context, x, y) {
   context.fillStyle = COLORS.door;
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
-
-function drawEnemy(context, x, y) {
-  context.fillStyle = COLORS.enemy;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 

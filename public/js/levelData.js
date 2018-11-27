@@ -1,4 +1,5 @@
 import Grid from "./grid.js";
+import Enemy from "./enemy.js";
 
 export function playerStartingPosition(grid) {
   let pos;
@@ -23,8 +24,15 @@ function findTiles(tile, grid) {
   return acc;
 }
 
-export function findEnemies(grid) {
-  return findTiles("#", grid);
+export function spawnEnemies(grid) {
+  const positions = [{ x: 6, y: 7 }, { x: 11, y: 5 }];
+  const byId = positions.reduce((memo, position) => {
+    const enemy = new Enemy(position);
+    memo[enemy.id] = enemy;
+    return memo;
+  }, {});
+
+  return byId;
 }
 
 const loadLevelData = async name => {

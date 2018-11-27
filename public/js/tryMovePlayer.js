@@ -34,9 +34,54 @@ export function tryMovePlayer(store, direction) {
       position: to
     });
     store.dispatch({ type: "PLAYER_MOVE", from, to });
+  } else if (field === " " && isEnemy(to, state)) {
+    const attack = roll(state.player.strength);
+    const enemy =
+      state.enemies[
+        Object.keys(state.enemies).filter(
+          id =>
+            state.enemies[id].position.x === to.x &&
+            state.enemies[id].position.y === to.y
+        )[0]
+      ];
+    const damage = attack - enemy.armor;
+    enemy.takeDamage(damage);
+    let msg = `Attack (${attack}) > ${damage} Damage`;
+    if (enemy.isDead) {
+      msg += " > RIP";
+      store.dispatch({
+        type: "ENEMY_DIED",
+        id: enemy.id
+      });
+    }
+    store.dispatch({
+      type: "ATTACK_ENEMY",
+      from,
+      to,
+      roll: attack,
+      damage: damage,
+      isDead: enemy.isDead,
+      message: msg
+    });
   } else if (field === "W") {
     // console.log("Path blocked, can't move to ", to);
   } else {
     store.dispatch({ type: "PLAYER_MOVE", from, to });
   }
+}
+
+function isEnemy(pos, state) {
+  return !!Object.entries(state.enemies)
+    .map(e => e[1])
+    .find(e => {
+      return e.position.x === pos.x && e.position.y === pos.y;
+    });
+}
+
+function roll(strength) {
+  // 1d6 + strength
+  const max = 6;
+  const min = 1;
+  const dice = Math.floor(Math.random() * (max - min + 1) + min);
+  return dice + strength;
 }

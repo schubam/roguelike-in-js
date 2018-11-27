@@ -1,6 +1,6 @@
 import { playerDefaults } from "./player.js";
 import Grid from "./grid.js";
-import { playerStartingPosition, findEnemies } from "./levelData.js";
+import { playerStartingPosition, spawnEnemies } from "./levelData.js";
 
 function createStore(reducer) {
   let state = {};
@@ -101,10 +101,15 @@ const player = (state = playerDefaults, action) => {
   }
 };
 
-const enemies = (state = {}, action) => {
+const enemies = (state = [], action) => {
   switch (action.type) {
     case "LEVEL_LOADED": {
-      return { positions: findEnemies(action.grid) };
+      return spawnEnemies(action.grid);
+    }
+
+    case "ENEMY_DIED": {
+      delete state[action.id];
+      return state;
     }
 
     case "PLAYER_MOVE": {
@@ -120,6 +125,7 @@ const status = (state = { messages: [], level: 0 }, action) => {
   switch (action.type) {
     case "PICKUP_GOLD":
     case "OPEN_DOOR_WITH_KEY":
+    case "ATTACK_ENEMY":
     case "PICKUP_KEY":
     case "STATUS_MESSAGE": {
       const newState = Object.assign({}, state);
