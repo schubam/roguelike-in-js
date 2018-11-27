@@ -14,7 +14,7 @@ setupInput(store);
 const camera = new Camera(32, 26, store);
 const compositor = new Compositor();
 
-Promise.all([loadFont(), loadLevel("level1")]).then(([font, level]) => {
+Promise.all([loadFont(), loadLevel("1")]).then(([font, level]) => {
   compositor.add(createUserInterfaceLayer(font, store));
 
   store.subscribe(() => {

@@ -45,6 +45,10 @@ export function drawLevel(width, height, data) {
           drawPlayerStarting(context, x, y);
           break;
 
+        case ">":
+          drawExit(context, x, y);
+          break;
+
         default:
           break;
       }
@@ -110,6 +114,11 @@ function drawWall(context, x, y) {
 
 function drawOutOfBounds(context, x, y) {
   context.fillStyle = COLORS.outOfBounds;
+  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+}
+
+function drawExit(context, x, y) {
+  context.fillStyle = COLORS.exit;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 

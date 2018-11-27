@@ -127,6 +127,7 @@ const status = (state = { messages: [], level: 0 }, action) => {
     case "OPEN_DOOR_WITH_KEY":
     case "ATTACK_ENEMY":
     case "PICKUP_KEY":
+    case "LEVEL_EXIT":
     case "STATUS_MESSAGE": {
       const newState = Object.assign({}, state);
       newState.messages.push(action.message);

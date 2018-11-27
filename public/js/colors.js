@@ -10,3 +10,4 @@ export const floor = "darkgreen";
 export const floorStroke = "black";
 export const outOfBounds = "#313131";
 export const enemy = "red";
+export const exit = "pink";

@@ -79,6 +79,14 @@ export default class Camera {
   }
 
   followPlayer(position, direction) {
+    if (
+      position.x < this.topLeft.x ||
+      position.x > this.topLeft.x + this.width ||
+      position.y < this.topLeft.y ||
+      position.y > this.topLeft.y + this.height
+    ) {
+      this.topLeft = { x: 0, y: 0 };
+    }
     if (direction) {
       if (direction.x === 1) {
         if (position.x >= this.center.x + this.scrollBoundaryX) {
