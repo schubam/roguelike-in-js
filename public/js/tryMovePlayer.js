@@ -22,8 +22,8 @@ export function tryMovePlayer(store, direction) {
     }
   } else if (field === "X") {
     store.dispatch({
-      type: "PICKUP_TREASURE",
-      message: "Treasure picked up",
+      type: "PICKUP_GOLD",
+      message: "Gold picked up",
       position: to
     });
     store.dispatch({ type: "PLAYER_MOVE", from, to });

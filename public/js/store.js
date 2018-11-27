@@ -43,7 +43,7 @@ const combineReducers = reducers => {
 const level = (state, action) => {
   switch (action.type) {
     case "OPEN_DOOR_WITH_KEY":
-    case "PICKUP_TREASURE":
+    case "PICKUP_GOLD":
     case "PICKUP_KEY": {
       const grid = new Grid(state.grid.width, state.grid.height);
       grid.data = state.grid.data;
@@ -86,7 +86,7 @@ const player = (state = playerDefaults, action) => {
       return { ...state, keys: state.keys + 1 };
     }
 
-    case "PICKUP_TREASURE": {
+    case "PICKUP_GOLD": {
       return { ...state, gold: state.gold + 10 };
     }
 
@@ -112,7 +112,7 @@ const player = (state = playerDefaults, action) => {
 
 const status = (state = { messages: [], level: 0 }, action) => {
   switch (action.type) {
-    case "PICKUP_TREASURE":
+    case "PICKUP_GOLD":
     case "OPEN_DOOR_WITH_KEY":
     case "PICKUP_KEY":
     case "STATUS_MESSAGE": {

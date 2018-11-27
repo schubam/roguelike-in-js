@@ -31,7 +31,7 @@ export function drawLevel(width, height, data) {
         break;
 
       case "X":
-        drawTreasure(context, x, y);
+        drawGold(context, x, y);
         break;
 
       case "|":
@@ -83,8 +83,8 @@ function drawDoor(context, x, y) {
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
-function drawTreasure(context, x, y) {
-  context.fillStyle = COLORS.treasure;
+function drawGold(context, x, y) {
+  context.fillStyle = COLORS.gold;
   context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
 
