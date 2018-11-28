@@ -7,8 +7,8 @@ class Compositor {
     this.layers.push(layer);
   }
 
-  draw(context) {
-    this.layers.forEach(layer => layer(context));
+  draw(context, camera) {
+    this.layers.forEach(layer => layer(context, camera));
   }
 }
 

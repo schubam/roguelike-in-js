@@ -35,7 +35,7 @@ export function spawnEnemies(grid) {
   return byId;
 }
 
-const loadLevelData = async name => {
+export const loadLevelData = async name => {
   try {
     const data = await fetch(`/js/levels/${name}.json`);
     const json = await data.json();

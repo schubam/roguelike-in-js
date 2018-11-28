@@ -1,4 +1,5 @@
 import * as COLORS from "./colors.js";
+import { TILE_SIZE } from "./render.js";
 
 function clearBackground(context, area) {
   const oldFillStyle = context.fillStyle;
@@ -21,13 +22,12 @@ function playerStat(player, attr, pad, maxPad = 2) {
 
 function titlebar(context, font, store) {
   const text = "Roguelike";
-  const half = Math.floor(text.length / 2);
-  font.print(text, context, 12 * 8, 0); // WTF?
+  font.print(text, context, 12 * font.size, 0);
 }
 
 function sidebar(context, font, store) {
   context.fillStyle = COLORS.sidebar;
-  context.fillRect(26 * 8, 8, 6 * 8, 26 * 8);
+  context.fillRect(26 * TILE_SIZE, TILE_SIZE, 6 * TILE_SIZE, 26 * TILE_SIZE);
 }
 
 function statusbar(context, font, store) {

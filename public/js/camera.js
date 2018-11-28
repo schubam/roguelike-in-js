@@ -1,4 +1,10 @@
-import { drawLevel, drawPlayer, drawEnemies, createBuffer } from "./render.js";
+import {
+  drawLevel,
+  drawPlayer,
+  drawEnemies,
+  createBuffer,
+  TILE_SIZE
+} from "./render.js";
 import Grid from "./grid.js";
 import Compositor from "./compositor.js";
 
@@ -38,10 +44,12 @@ export default class Camera {
     };
   }
 
-  move(pos) {
+  move(pos, worldWidth, worldHeight) {
     const temp = { x: this.topLeft.x + pos.x, y: this.topLeft.y + pos.y };
     if (temp.x < 0) temp.x = 0;
     if (temp.y < 0) temp.y = 0;
+    if (temp.x > worldWidth - this.width) temp.x = worldWidth - this.width;
+    if (temp.y > worldHeight - this.height) temp.y = worldHeight - this.height;
     this.topLeft = temp;
     this.calculateCenter();
   }
@@ -50,7 +58,7 @@ export default class Camera {
     const { level, player, enemies } = this.store.getState();
     const { position, direction } = player;
 
-    this.followPlayer(position, direction);
+    this.followPlayer(position, direction, level.grid.width, level.grid.height);
 
     this.compositor.add(
       drawLevel(this.width, this.height, this.cameraData(level))
@@ -74,11 +82,11 @@ export default class Camera {
     this.compositor.draw(this.context);
     const self = this;
     return function(ctx) {
-      ctx.drawImage(self.buffer, 0, 8);
+      ctx.drawImage(self.buffer, 0, TILE_SIZE);
     };
   }
 
-  followPlayer(position, direction) {
+  followPlayer(position, direction, worldWidth, worldHeight) {
     if (
       position.x < this.topLeft.x ||
       position.x > this.topLeft.x + this.width ||
@@ -90,19 +98,19 @@ export default class Camera {
     if (direction) {
       if (direction.x === 1) {
         if (position.x >= this.center.x + this.scrollBoundaryX) {
-          this.move({ x: 1, y: 0 });
+          this.move({ x: 1, y: 0 }, worldWidth, worldHeight);
         }
       } else if (direction.x === -1) {
         if (position.x <= this.center.x - this.scrollBoundaryX) {
-          this.move({ x: -1, y: 0 });
+          this.move({ x: -1, y: 0 }, worldWidth, worldHeight);
         }
       } else if (direction.y === 1) {
         if (position.y >= this.center.y + this.scrollBoundaryY) {
-          this.move({ x: 0, y: 1 });
+          this.move({ x: 0, y: 1 }, worldWidth, worldHeight);
         }
       } else if (direction.y === -1) {
         if (position.y <= this.center.y - this.scrollBoundaryY) {
-          this.move({ x: 0, y: -1 });
+          this.move({ x: 0, y: -1 }, worldWidth, worldHeight);
         }
       }
     }

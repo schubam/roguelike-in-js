@@ -1,26 +1,29 @@
-import Camera from "./camera.js";
 import { loadFont } from "./font.js";
 import { setupInput } from "./input.js";
-import { loadLevel } from "./levelData.js";
+import { createLevelLoader } from "./levelLoader.js";
+import { TILE_SIZE } from "./render.js";
 import { createGame } from "./store.js";
-import Compositor from "./compositor.js";
 import { createUserInterfaceLayer } from "./userInterface.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 const store = createGame();
 
-setupInput(store);
-const camera = new Camera(32, 26, store);
-const compositor = new Compositor();
+const camera = {
+  pos: { x: 0, y: 0 },
+  size: { x: 32 * TILE_SIZE, y: 26 * TILE_SIZE }
+};
 
-Promise.all([loadFont(), loadLevel("1")]).then(([font, level]) => {
-  compositor.add(createUserInterfaceLayer(font, store));
+setupInput(store, camera);
 
-  store.subscribe(() => {
-    compositor.draw(context);
-    camera.render()(context);
+Promise.all([loadFont(), createLevelLoader()]).then(([font, levelLoader]) => {
+  levelLoader("2").then(level => {
+    level.addLayer(createUserInterfaceLayer(font, store));
+
+    store.subscribe(() => {
+      level.draw(context, camera);
+    });
+
+    store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });
   });
-
-  store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });
 });

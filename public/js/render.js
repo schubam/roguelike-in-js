@@ -1,6 +1,6 @@
 import * as COLORS from "./colors.js";
 
-const TILE_SIZE = 8;
+export const TILE_SIZE = 16;
 
 export function createBuffer(width, height) {
   const buffer = document.createElement("canvas");
@@ -13,50 +13,54 @@ export function drawLevel(width, height, data) {
   const context = buffer.getContext("2d");
 
   data.forEach((tile, x, y) => {
-    if (!tile) {
-      drawOutOfBounds(context, x, y);
-    } else {
-      switch (tile[0]) {
-        case " ":
-          drawFloor(context, x, y);
-          break;
-
-        case "W":
-          drawWall(context, x, y);
-          break;
-
-        case "K":
-          drawKey(context, x, y);
-          break;
-
-        case "D":
-          drawDoor(context, x, y);
-          break;
-
-        case "X":
-          drawGold(context, x, y);
-          break;
-
-        case undefined:
-          drawOutOfBounds(context, x, y);
-          break;
-
-        case "@":
-          drawPlayerStarting(context, x, y);
-          break;
-
-        case ">":
-          drawExit(context, x, y);
-          break;
-
-        default:
-          break;
-      }
-    }
+    renderTile(tile, x, y, context);
   });
   return function(ctx) {
     ctx.drawImage(buffer, 0, 0);
   };
+}
+
+export function renderTile(tile, x, y, context) {
+  if (!tile) {
+    drawOutOfBounds(context, x, y);
+  } else {
+    switch (tile[0]) {
+      case " ":
+        drawFloor(context, x, y);
+        break;
+
+      case "W":
+        drawWall(context, x, y);
+        break;
+
+      case "K":
+        drawKey(context, x, y);
+        break;
+
+      case "D":
+        drawDoor(context, x, y);
+        break;
+
+      case "X":
+        drawGold(context, x, y);
+        break;
+
+      case undefined:
+        drawOutOfBounds(context, x, y);
+        break;
+
+      case "@":
+        drawPlayerStarting(context, x, y);
+        break;
+
+      case ">":
+        drawExit(context, x, y);
+        break;
+
+      default:
+        break;
+    }
+  }
 }
 
 export function drawPlayer(width, height, pos) {

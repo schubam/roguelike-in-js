@@ -82,7 +82,8 @@ const player = (state = playerDefaults, action) => {
     }
 
     case "LEVEL_LOADED": {
-      return { ...state, position: playerStartingPosition(action.grid) };
+      const position = playerStartingPosition(action.grid);
+      return { ...state, position };
     }
 
     case "PLAYER_MOVE": {
