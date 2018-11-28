@@ -1,0 +1,26 @@
+{
+  "imageURL": "/img/character_sprite_sheet.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "tiles": [
+    {
+      "name": "dude-right-1",
+      "index": [15, 12]
+    },
+    {
+      "name": "dude-right-2",
+      "index": [16, 12]
+    },
+    {
+      "name": "dude-right-3",
+      "index": [17, 12]
+    }
+  ],
+  "animations": [
+    {
+      "name": "dude-walk-right",
+      "frameLength": 0.25,
+      "frames": ["dude-right-1", "dude-right-2", "dude-right-3"]
+    }
+  ]
+}

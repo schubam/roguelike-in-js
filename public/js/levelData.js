@@ -41,7 +41,7 @@ export const loadLevelData = async name => {
     const json = await data.json();
     const grid = new Grid(json.width, json.height);
     grid.setData(json.data);
-    return grid;
+    return { grid, levelSpec: json };
   } catch (error) {
     console.error("Error", error);
   }

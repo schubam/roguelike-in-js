@@ -1,25 +1,4 @@
-import { createBuffer } from "./render.js";
-
-class SpriteSheet {
-  constructor(image, width, height) {
-    this.image = image;
-    this.width = width;
-    this.height = height;
-    this.tiles = new Map();
-  }
-
-  define(name, x, y, width, height) {
-    const buffer = createBuffer(width, height);
-    const context = buffer.getContext("2d");
-    context.drawImage(this.image, x, y, width, height, 0, 0, width, height);
-    this.tiles.set(name, buffer);
-  }
-
-  draw(name, context, x, y) {
-    const buffer = this.tiles.get(name);
-    context.drawImage(buffer, x, y);
-  }
-}
+import { SpriteSheet, loadImage } from "./spriteSheet.js";
 
 const CHARS =
   " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
@@ -35,14 +14,6 @@ class Font {
       this.sprites.draw(char, context, x + pos * this.size, y);
     });
   }
-}
-
-function loadImage(url) {
-  return new Promise(resolve => {
-    const image = new Image();
-    image.addEventListener("load", () => resolve(image));
-    image.src = url;
-  });
 }
 
 export async function loadFont() {
