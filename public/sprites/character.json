@@ -4,6 +4,18 @@
   "tileHeight": 16,
   "tiles": [
     {
+      "name": "player-front-1",
+      "index": [6, 18]
+    },
+    {
+      "name": "player-front-2",
+      "index": [7, 18]
+    },
+    {
+      "name": "player-front-3",
+      "index": [8, 18]
+    },
+    {
       "name": "dude-right-1",
       "index": [15, 12]
     },
@@ -17,6 +29,11 @@
     }
   ],
   "animations": [
+    {
+      "name": "player-walk-front",
+      "frameLength": 0.25,
+      "frames": ["player-front-1", "player-front-2", "player-front-3"]
+    },
     {
       "name": "dude-walk-right",
       "frameLength": 0.25,

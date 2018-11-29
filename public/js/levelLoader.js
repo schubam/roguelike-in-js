@@ -1,7 +1,8 @@
 import { createBackgroundLayer } from "./backgroundLayer.js";
 import { createSpriteLayer } from "./spriteLayer.js";
 import Compositor from "./compositor.js";
-import { loadLevelData } from "./levelData.js";
+
+import { loadLevelData, playerStartingPosition } from "./levelData.js";
 
 class Level {
   constructor(grid) {
@@ -33,21 +34,25 @@ function setupBackground(grid, level) {
   level.addLayer(createBackgroundLayer(grid));
 }
 
-function setupEntities(spec, level, entityFactory) {
+function setupEntities(spec, level, entityFactories) {
   spec.enemies.forEach(({ name, x, y }) => {
-    const e = entityFactory();
-    e.pos = { x: x*16, y: y*16 };
+    const e = entityFactories[name]();
+    e.pos = { x: x * 16, y: y * 16 };
     level.addEntity(e);
   });
+  const pos = playerStartingPosition(level.grid);
+  const player = entityFactories["player"]();
+  player.pos = pos;
+  level.addEntity(player);
   level.addLayer(createSpriteLayer(level.entities, 16, 16));
 }
 
-export function createLevelLoader(entityFactory) {
+export function createLevelLoader(entityFactories) {
   return async function(name) {
     const { grid, levelSpec } = await loadLevelData(name);
     const level = new Level(grid);
     setupBackground(grid, level);
-    setupEntities(levelSpec, level, entityFactory);
+    setupEntities(levelSpec, level, entityFactories);
     return level;
   };
 }

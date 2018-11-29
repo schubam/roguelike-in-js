@@ -2,7 +2,8 @@
     "width": 16,
     "height": 16,
     "enemies": [
-        {"name":"dude", "x":4, "y":3}
+        {"name":"dude", "x":4, "y":3},
+        {"name":"dude", "x":4, "y":4}
     ],
     "data": [
         " ","W","W","W","W","W","W","W","W","W","W","W","W","W","W"," ",
