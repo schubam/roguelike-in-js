@@ -19,7 +19,6 @@ export function createBackgroundLayer(grid) {
     }
   }
 
-  console.table(grid.data);
   return function render(context, camera) {
     context.drawImage(
       buffer,
