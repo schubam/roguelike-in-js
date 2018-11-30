@@ -54,6 +54,6 @@ function cameraFollowsPlayer(pos, level) {
   );
   camera.pos.y = Math.min(
     Math.max(0, pos.y - 5 * TILE_SIZE),
-    (level.grid.height - 1) * TILE_SIZE - camera.size.y
+    level.grid.height * TILE_SIZE - camera.size.y
   );
 }
