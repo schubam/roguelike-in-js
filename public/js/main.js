@@ -14,7 +14,7 @@ const store = createGame();
 
 const camera = {
   pos: { x: 0, y: 0 },
-  size: { x: 16 * TILE_SIZE, y: 12 * TILE_SIZE }
+  size: { x: 8 * TILE_SIZE, y: 8 * TILE_SIZE }
 };
 
 setupInput(store, camera);
@@ -37,22 +37,23 @@ Promise.all([loadFont(), loadEntities()]).then(([font, entityFactories]) => {
     timer.start();
 
     store.subscribe(() => {
-      cameraFollowsPlayer(player, level);
+      let ppos = store.getState().player.position;
+      player.pos = { x: ppos.x * TILE_SIZE, y: ppos.y * TILE_SIZE };
+      cameraFollowsPlayer(player.pos, level);
+      console.log(camera.pos);
     });
 
     store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });
   });
 });
 
-function cameraFollowsPlayer(player, level) {
-  let ppos = store.getState().player.position;
-  player.pos = { x: ppos.x * TILE_SIZE, y: ppos.y * TILE_SIZE };
+function cameraFollowsPlayer(pos, level) {
   camera.pos.x = Math.min(
-    Math.max(0, player.pos.x - Math.floor(camera.size.x * 0.5)),
+    Math.max(0, pos.x - camera.size.x / 2),
     level.grid.width * TILE_SIZE - camera.size.x
   );
   camera.pos.y = Math.min(
-    Math.max(0, player.pos.y - Math.floor(camera.size.y * 0.5)),
+    Math.max(0, pos.y - 5 * TILE_SIZE),
     (level.grid.height - 1) * TILE_SIZE - camera.size.y
   );
 }
