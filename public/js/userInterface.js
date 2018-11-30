@@ -1,13 +1,3 @@
-import * as COLORS from "./colors.js";
-import { TILE_SIZE } from "./render.js";
-
-function clearBackground(context, area) {
-  const oldFillStyle = context.fillStyle;
-  context.fillStyle = COLORS.background;
-  context.fillRect(area.x, area.y, area.width, area.height);
-  context.fillStyle = oldFillStyle;
-}
-
 function playerStat(player, attr, pad, maxPad = 2) {
   const lookup = {
     level: "Level",
@@ -21,26 +11,17 @@ function playerStat(player, attr, pad, maxPad = 2) {
 }
 
 function titlebar(context, font, store) {
+  context.clearRect(0, 0, 32 * font.size, 2 * font.size);
+
   const text = "Roguelike";
   font.print(text, context, 12 * font.size, 0);
-}
-
-function sidebar(context, font, store) {
-  context.fillStyle = COLORS.sidebar;
-  context.fillRect(26 * TILE_SIZE, TILE_SIZE, 6 * TILE_SIZE, 26 * TILE_SIZE);
 }
 
 function statusbar(context, font, store) {
   const line1 = { x: 0, y: 27 * font.size };
   const line2 = { x: 0, y: 28 * font.size };
   const line3 = { x: 0, y: 29 * font.size };
-  const area = {
-    x: 0,
-    y: 27 * font.size,
-    width: 32 * font.size,
-    height: 3 * font.size
-  };
-  clearBackground(context, area);
+  context.clearRect(0, 24 * font.size, 32 * font.size, 6 * font.size);
 
   const state = store.getState();
   const { player, status } = state;
@@ -68,7 +49,6 @@ function statusbar(context, font, store) {
 export function createUserInterfaceLayer(font, store) {
   return function drawUserInterface(context) {
     titlebar(context, font, store);
-    // sidebar(context, font, store);
     statusbar(context, font, store);
   };
 }

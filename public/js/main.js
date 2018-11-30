@@ -14,7 +14,7 @@ const store = createGame();
 
 const camera = {
   pos: { x: 0, y: 0 },
-  size: { x: 8 * TILE_SIZE, y: 8 * TILE_SIZE }
+  size: { x: 16 * TILE_SIZE, y: 11 * TILE_SIZE }
 };
 
 setupInput(store, camera);
@@ -40,7 +40,6 @@ Promise.all([loadFont(), loadEntities()]).then(([font, entityFactories]) => {
       let ppos = store.getState().player.position;
       player.pos = { x: ppos.x * TILE_SIZE, y: ppos.y * TILE_SIZE };
       cameraFollowsPlayer(player.pos, level);
-      console.log(camera.pos);
     });
 
     store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });

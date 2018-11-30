@@ -10,7 +10,11 @@ export function createBackgroundLayer(grid) {
     const col = grid.data[x];
     if (col) {
       col.forEach((tile, y) => {
-        renderTile(tile, x, y, context);
+        if ("W" === tile) {
+          renderTile(tile, x, y, context);
+        } else {
+          renderTile(" ", x, y, context);
+        }
       });
     }
   }
