@@ -5,15 +5,15 @@
   "tiles": [
     {
       "name": "player-front-1",
-      "index": [6, 18]
+      "index": [6, 19]
     },
     {
       "name": "player-front-2",
-      "index": [7, 18]
+      "index": [7, 19]
     },
     {
       "name": "player-front-3",
-      "index": [8, 18]
+      "index": [8, 19]
     },
     {
       "name": "dude-right-1",

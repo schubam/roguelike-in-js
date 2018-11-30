@@ -1,3 +1,5 @@
+import { TILE_SIZE } from "./render.js";
+
 export function createSpriteLayer(entities, width, height) {
   const spriteBuffer = document.createElement("canvas");
   spriteBuffer.width = width;
@@ -8,12 +10,11 @@ export function createSpriteLayer(entities, width, height) {
     entities.forEach(entity => {
       spriteBufferContext.clearRect(0, 0, width, height);
       entity.draw(spriteBufferContext);
-
-      context.drawImage(
-        spriteBuffer,
-        entity.pos.x - camera.pos.x,
-        entity.pos.y - camera.pos.y
-      );
+      const pos = {
+        x: entity.pos.x - camera.pos.x,
+        y: entity.pos.y - camera.pos.y + TILE_SIZE
+      };
+      context.drawImage(spriteBuffer, pos.x, pos.y);
     });
   };
 }

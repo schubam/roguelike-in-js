@@ -2,14 +2,15 @@ import Entity from "./entity.js";
 import { loadSpriteSheet } from "./spriteSheet.js";
 
 export async function loadEntities() {
-  const sprite = await loadSpriteSheet("character");
+  const sprite = await loadSpriteSheet("chara_hero");
+  // const sprite = await loadSpriteSheet("character");
   return createEntityFactories(sprite);
 }
 
 function dudeFactory(sprite) {
-  const walkAnim = sprite.animations.get("dude-walk-right");
+  // const walkAnim = sprite.animations.get("dude-walk-right");
   function drawDude(context) {
-    sprite.draw(walkAnim(this.lifetime), context, 0, 0);
+    // sprite.draw(walkAnim(this.lifetime), context, 0, 0);
   }
 
   return function createDude() {
@@ -20,7 +21,7 @@ function dudeFactory(sprite) {
 }
 
 function playerFactory(sprite) {
-  const walkAnim = sprite.animations.get("player-walk-front");
+  const walkAnim = sprite.animations.get("player-action");
   function drawPlayer(context) {
     sprite.draw(walkAnim(this.lifetime), context, 0, 0);
   }

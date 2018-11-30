@@ -19,7 +19,6 @@ export function createBackgroundLayer(grid) {
 
   function redraw(startIndex, endIndex) {
     context.clearRect(0, 0, buffer.width, buffer.height);
-
     for (let x = startIndex; x <= endIndex; x++) {
       const col = grid.data[x];
       if (col) {
@@ -33,6 +32,8 @@ export function createBackgroundLayer(grid) {
   return function render(context, camera) {
     const drawWidth = resolver.toIndex(camera.size.x);
     const drawFrom = resolver.toIndex(camera.pos.x);
+    const drawHeightFrom = camera.pos.y * TILE_SIZE;
+    const drawHeightTo = drawHeightFrom + camera.size.y;
     const drawTo = drawFrom + drawWidth;
     redraw(drawFrom, drawTo);
     context.drawImage(

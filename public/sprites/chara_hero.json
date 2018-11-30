@@ -1,0 +1,81 @@
+{
+  "imageURL": "/img/chara_hero.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "tiles": [
+    {
+      "name": "player-idle-1",
+      "index": [1, 1]
+    },
+    {
+      "name": "player-idle-2",
+      "index": [4, 1]
+    },
+    {
+      "name": "player-idle-3",
+      "index": [7, 1]
+    },
+    {
+      "name": "player-action-1",
+      "index": [1, 4]
+    },
+    {
+      "name": "player-action-2",
+      "index": [4, 4]
+    },
+    {
+      "name": "player-action-3",
+      "index": [7, 4]
+    }
+  ],
+  "animations": [
+    {
+      "name": "player-idle",
+      "frameLength": 0.1,
+      "frames": [
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-1",
+        "player-idle-2",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-3",
+        "player-idle-2"
+      ]
+    },
+    {
+      "name": "player-action",
+      "frameLength": 0.1,
+      "frames": [
+        "player-action-1",
+        "player-action-1",
+        "player-action-1",
+        "player-action-1",
+        "player-action-1",
+        "player-action-1",
+        "player-action-1",
+        "player-action-1",
+        "player-action-2",
+        "player-action-3",
+        "player-action-3",
+        "player-action-3",
+        "player-action-3",
+        "player-action-3",
+        "player-action-3",
+        "player-action-3",
+        "player-action-3",
+        "player-action-2"
+      ]
+    }
+  ]
+}

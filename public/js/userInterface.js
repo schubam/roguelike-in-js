@@ -67,8 +67,8 @@ function statusbar(context, font, store) {
 
 export function createUserInterfaceLayer(font, store) {
   return function drawUserInterface(context) {
-    titlebar(context, font, store);
+    // titlebar(context, font, store);
     // sidebar(context, font, store);
-    statusbar(context, font, store);
+    // statusbar(context, font, store);
   };
 }
