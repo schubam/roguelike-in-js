@@ -1,5 +1,5 @@
 import Entity from "./entity.js";
-import { loadSpriteSheet } from "./spriteSheet.js";
+import { loadSpriteSheet } from "./loadSpriteSheet.js";
 
 export async function loadEntities() {
   const sprite = await loadSpriteSheet("chara_hero");
@@ -21,9 +21,10 @@ function dudeFactory(sprite) {
 }
 
 function playerFactory(sprite) {
-  const walkAnim = sprite.animations.get("player-action");
+  const walkAnim = sprite.animations.get("player-idle");
   function drawPlayer(context) {
-    sprite.draw(walkAnim(this.lifetime), context, 0, 0);
+    // sprite.draw(walkAnim(this.lifetime), context, 0, 0);
+    sprite.draw("player-idle-1", context, 0, 0);
   }
 
   return function createplayer() {

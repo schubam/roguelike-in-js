@@ -1,25 +1,38 @@
 import { createBuffer } from "./render.js";
 
-export async function loadJSON(url) {
-  const data = await fetch(url);
-  return data.json();
-}
-
-export function loadImage(url) {
-  return new Promise(resolve => {
-    const image = new Image();
-    image.addEventListener("load", () => resolve(image));
-    image.src = url;
-  });
+function createAnimation(frames, frameLength) {
+  return function resolveFrame(distance) {
+    const frameIndex = Math.floor(distance / frameLength) % frames.length;
+    const frameName = frames[frameIndex];
+    return frameName;
+  };
 }
 
 export class SpriteSheet {
-  constructor(image, width, height) {
+  constructor(image, spec) {
     this.image = image;
-    this.width = width;
-    this.height = height;
     this.tiles = new Map();
     this.animations = new Map();
+
+    if (spec) {
+      this.width = spec.tileWidth;
+      this.height = spec.tileHeight;
+      if ("tiles" in spec) {
+        spec.tiles.forEach(tileSpec => {
+          this.defineTile(tileSpec.name, tileSpec.index[0], tileSpec.index[1]);
+        });
+      }
+
+      if ("animations" in spec) {
+        spec.animations.forEach(animationSpec => {
+          const animation = createAnimation(
+            animationSpec.frames,
+            animationSpec.frameLength
+          );
+          this.defineAnimation(animationSpec.name, animation);
+        });
+      }
+    }
   }
 
   define(name, x, y, width, height) {
@@ -51,36 +64,4 @@ export class SpriteSheet {
     const tile = animation(distance);
     this.drawTile(tile, context, x, y);
   }
-}
-
-export async function loadSpriteSheet(name) {
-  const spriteSheetSpec = await loadJSON(`/sprites/${name}.json`);
-  const spriteSheet = await loadImage(spriteSheetSpec.imageURL);
-  const sprites = new SpriteSheet(
-    spriteSheet,
-    spriteSheetSpec.tileWidth,
-    spriteSheetSpec.tileHeight
-  );
-
-  spriteSheetSpec.tiles.forEach(tileSpec => {
-    sprites.defineTile(tileSpec.name, tileSpec.index[0], tileSpec.index[1]);
-  });
-
-  spriteSheetSpec.animations.forEach(animationSpec => {
-    const animation = createAnimation(
-      animationSpec.frames,
-      animationSpec.frameLength
-    );
-    sprites.defineAnimation(animationSpec.name, animation);
-  });
-
-  return sprites;
-}
-
-function createAnimation(frames, frameLength) {
-  return function resolveFrame(distance) {
-    const frameIndex = Math.floor(distance / frameLength) % frames.length;
-    const frameName = frames[frameIndex];
-    return frameName;
-  };
 }

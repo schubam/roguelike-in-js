@@ -1,5 +1,5 @@
 import { loadEntities } from "./entityFactory.js";
-import { loadFont } from "./font.js";
+import { loadFont } from "./loaders/loadFont.js";
 import { setupInput } from "./input.js";
 import { createLevelLoader } from "./levelLoader.js";
 import { TILE_SIZE } from "./render.js";
