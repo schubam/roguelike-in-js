@@ -1,5 +1,3 @@
-import { loadLevel } from "./levelData.js";
-
 export function tryMovePlayer(store, direction) {
   const state = store.getState();
   const grid = state.level.grid;
@@ -75,9 +73,7 @@ export function tryMovePlayer(store, direction) {
       to,
       message: "Arrived at staircase, going down..."
     });
-    loadLevel("2").then(level => {
-      store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });
-    });
+    startLevel("2");
   } else if (field === "W") {
     // console.log("Path blocked, can't move to ", to);
   } else {
