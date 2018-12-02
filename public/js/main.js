@@ -52,7 +52,7 @@ async function main() {
     }
   );
 
-  startLevel("2");
+  startLevel("1");
 
   function cameraFollowsPlayer(pos, level) {
     camera.pos.x = Math.min(
