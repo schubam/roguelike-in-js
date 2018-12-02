@@ -1,6 +1,6 @@
-import { TILE_SIZE } from "./render.js";
+import { TILE_SIZE } from "../render.js";
 
-export function createSpriteLayer(entities, width, height) {
+export default function createSpriteLayer(entities, width, height) {
   const spriteBuffer = document.createElement("canvas");
   spriteBuffer.width = width;
   spriteBuffer.height = height;

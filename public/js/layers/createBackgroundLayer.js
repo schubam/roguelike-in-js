@@ -1,6 +1,6 @@
-import { createBuffer, renderTile, TILE_SIZE } from "./render.js";
+import { createBuffer, TILE_SIZE, renderPaletteTile } from "../render.js";
 
-export function createBackgroundLayer(grid) {
+export default function createBackgroundLayer(grid, palette) {
   const { width, height } = grid;
   const buffer = createBuffer(width, height);
   const context = buffer.getContext("2d");
@@ -11,9 +11,9 @@ export function createBackgroundLayer(grid) {
     if (col) {
       col.forEach((tile, y) => {
         if ("W" === tile) {
-          renderTile(tile, x, y, context);
+          renderPaletteTile(tile, x, y, context, palette);
         } else {
-          renderTile(" ", x, y, context);
+          renderPaletteTile(" ", x, y, context, palette);
         }
       });
     }

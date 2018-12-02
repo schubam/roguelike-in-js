@@ -1,6 +1,7 @@
 import { playerDefaults } from "./player.js";
 import Grid from "./grid.js";
 import { playerStartingPosition, spawnEnemies } from "./levelData.js";
+import { TILE_SIZE } from "./render.js";
 
 function createStore(reducer) {
   let state = {};
@@ -36,6 +37,17 @@ const combineReducers = reducers => {
   };
 };
 
+function removeItem(tile, position, g, byTile, level) {
+  const grid = new Grid(g.width, g.height);
+  grid.data = g.data;
+  grid.set(position.x, position.y, " ");
+  const keys = byTile[tile].filter(
+    e => !(e.x === position.x && e.y === position.y)
+  );
+  level.removeItemAtPosition(position.x * TILE_SIZE, position.y * TILE_SIZE);
+  return { grid, byTile: { ...byTile, keys } };
+}
+
 // reducer -
 //   a reducer works with the current state
 //   executes an action,
@@ -46,19 +58,26 @@ const level = (state, action) => {
     case "OPEN_DOOR_WITH_KEY":
     case "PICKUP_GOLD":
     case "PICKUP_KEY": {
-      const grid = new Grid(state.grid.width, state.grid.height);
-      grid.data = state.grid.data;
-      grid.set(action.position.x, action.position.y, " ");
+      const { grid, byTile } = removeItem(
+        action.tile,
+        action.position,
+        state.grid,
+        state.byTile,
+        state.level
+      );
       return {
         ...state,
-        grid
+        grid,
+        byTile
       };
     }
 
     case "LEVEL_LOADED": {
       return {
         ...state,
-        grid: action.grid
+        grid: action.grid,
+        byTile: action.byTile,
+        level: action.level
       };
     }
 

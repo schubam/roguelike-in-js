@@ -8,6 +8,44 @@ export function createBuffer(width, height) {
   buffer.height = height * TILE_SIZE;
   return buffer;
 }
+
+const colorForTile = tile => {
+  switch (tile) {
+    case " ":
+      return "darkgreen";
+    case "W":
+      return "darkgrey";
+    case "X":
+      return "gold";
+    case "@":
+      return "darkblue";
+    case ">":
+      return "pink";
+    case "K":
+      return "orange";
+    case "D":
+      return "darkbrown";
+
+    default:
+      return "color-1";
+  }
+};
+
+export function renderPaletteTile(tile, x, y, context, palette) {
+  palette.drawProjected(
+    colorForTile(tile),
+    context,
+    0,
+    0,
+    palette.width,
+    palette.width,
+    x * TILE_SIZE,
+    y * TILE_SIZE,
+    TILE_SIZE,
+    TILE_SIZE
+  );
+}
+
 export function drawLevel(width, height, data) {
   const buffer = createBuffer(width, height);
   const context = buffer.getContext("2d");
@@ -127,8 +165,8 @@ function drawExit(context, x, y) {
 }
 
 function drawFloor(context, x, y) {
-  context.fillStyle = COLORS.floor;
-  context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-  context.strokeStyle = COLORS.floorStroke;
-  context.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  // context.fillStyle = COLORS.floor;
+  // context.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  // context.strokeStyle = COLORS.floorStroke;
+  // context.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }

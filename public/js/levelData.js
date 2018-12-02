@@ -24,6 +24,15 @@ function findTiles(tile, grid) {
   return acc;
 }
 
+function byTile(grid) {
+  const object = {
+    X: findTiles("X", grid),
+    D: findTiles("D", grid),
+    K: findTiles("K", grid)
+  };
+  return object;
+}
+
 export function spawnEnemies(grid) {
   const positions = [{ x: 6, y: 7 }, { x: 11, y: 5 }];
   const byId = positions.reduce((memo, position) => {
@@ -41,7 +50,8 @@ export const loadLevelData = async name => {
     const json = await data.json();
     const grid = new Grid(json.width, json.height);
     grid.setData(json.data);
-    return { grid, levelSpec: json };
+    const tiles = byTile(grid);
+    return { grid, byTile: tiles, levelSpec: json };
   } catch (error) {
     console.error("Error", error);
   }

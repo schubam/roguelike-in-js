@@ -1,0 +1,135 @@
+{
+  "imageURL": "/img/edg32.png",
+  "tileWidth": 8,
+  "tileHeight": 8,
+  "tiles": [
+    {
+      "name": "color-1",
+      "index": [0, 0]
+    },
+    {
+      "name": "color-2",
+      "index": [1, 0]
+    },
+    {
+      "name": "color-3",
+      "index": [2, 0]
+    },
+    {
+      "name": "color-4",
+      "index": [3, 0]
+    },
+    {
+      "name": "color-5",
+      "index": [4, 0]
+    },
+    {
+      "name": "darkbrown",
+      "index": [5, 0]
+    },
+    {
+      "name": "color-7",
+      "index": [6, 0]
+    },
+    {
+      "name": "color-8",
+      "index": [7, 0]
+    },
+    {
+      "name": "color-9",
+      "index": [8, 0]
+    },
+    {
+      "name": "color-10",
+      "index": [9, 0]
+    },
+    {
+      "name": "color-11",
+      "index": [10, 0]
+    },
+    {
+      "name": "orange",
+      "index": [11, 0]
+    },
+    {
+      "name": "gold",
+      "index": [12, 0]
+    },
+    {
+      "name": "color-14",
+      "index": [13, 0]
+    },
+    {
+      "name": "color-15",
+      "index": [14, 0]
+    },
+    {
+      "name": "darkgreen",
+      "index": [15, 0]
+    },
+    {
+      "name": "color-17",
+      "index": [16, 0]
+    },
+    {
+      "name": "darkblue",
+      "index": [17, 0]
+    },
+    {
+      "name": "color-19",
+      "index": [18, 0]
+    },
+    {
+      "name": "color-20",
+      "index": [19, 0]
+    },
+    {
+      "name": "color-21",
+      "index": [20, 0]
+    },
+    {
+      "name": "color-22",
+      "index": [21, 0]
+    },
+    {
+      "name": "color-23",
+      "index": [22, 0]
+    },
+    {
+      "name": "color-24",
+      "index": [23, 0]
+    },
+    {
+      "name": "darkgrey",
+      "index": [24, 0]
+    },
+    {
+      "name": "color-26",
+      "index": [25, 0]
+    },
+    {
+      "name": "color-27",
+      "index": [26, 0]
+    },
+    {
+      "name": "color-28",
+      "index": [27, 0]
+    },
+    {
+      "name": "pink",
+      "index": [28, 0]
+    },
+    {
+      "name": "color-30",
+      "index": [29, 0]
+    },
+    {
+      "name": "color-31",
+      "index": [30, 0]
+    },
+    {
+      "name": "color-32",
+      "index": [31, 0]
+    }
+  ]
+}

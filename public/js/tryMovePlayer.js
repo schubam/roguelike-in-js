@@ -18,7 +18,8 @@ export function tryMovePlayer(store, direction) {
       store.dispatch({
         type: "OPEN_DOOR_WITH_KEY",
         message: "Opened door with key",
-        position: to
+        position: to,
+        tile: field
       });
       store.dispatch({ type: "PLAYER_MOVE", from, to });
     }
@@ -26,14 +27,16 @@ export function tryMovePlayer(store, direction) {
     store.dispatch({
       type: "PICKUP_GOLD",
       message: "Gold picked up",
-      position: to
+      position: to,
+      tile: field
     });
     store.dispatch({ type: "PLAYER_MOVE", from, to });
   } else if (field === "K") {
     store.dispatch({
       type: "PICKUP_KEY",
       message: "Key picked up",
-      position: to
+      position: to,
+      tile: field
     });
     store.dispatch({ type: "PLAYER_MOVE", from, to });
   } else if (field === " " && isEnemy(to, state)) {

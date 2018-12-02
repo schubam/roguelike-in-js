@@ -64,4 +64,9 @@ export class SpriteSheet {
     const tile = animation(distance);
     this.drawTile(tile, context, x, y);
   }
+
+  drawProjected(name, context, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
+    const buffer = this.tiles.get(name);
+    context.drawImage(buffer, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+  }
 }

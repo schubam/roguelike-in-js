@@ -1,5 +1,5 @@
 import Entity from "./entity.js";
-import { loadSpriteSheet } from "./loadSpriteSheet.js";
+import loadSpriteSheet from "./loaders/loadSpriteSheet.js";
 
 export async function loadEntities() {
   const sprite = await loadSpriteSheet("chara_hero");

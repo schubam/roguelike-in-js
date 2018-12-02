@@ -1,12 +1,12 @@
 import { loadEntities } from "./entityFactory.js";
-import { loadFont } from "./loaders/loadFont.js";
 import { setupInput } from "./input.js";
-import { createLevelLoader } from "./levelLoader.js";
+import { playerStartingPosition } from "./levelData.js";
+import { createLevelLoader } from "./loaders/createLevelLoader.js";
+import { loadFont } from "./loaders/loadFont.js";
 import { TILE_SIZE } from "./render.js";
 import { createGame } from "./store.js";
 import Timer from "./timer.js";
 import { createUserInterfaceLayer } from "./userInterface.js";
-import { playerStartingPosition } from "./levelData.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
@@ -21,7 +21,8 @@ setupInput(store, camera);
 
 Promise.all([loadFont(), loadEntities()]).then(([font, entityFactories]) => {
   const levelLoader = createLevelLoader(entityFactories);
-  levelLoader("1").then(level => {
+  levelLoader("1").then(levelData => {
+    const { level, grid, byTile } = levelData;
     const pos = playerStartingPosition(level.grid);
     const player = entityFactories["player"]();
     player.pos = { x: TILE_SIZE * pos.x, y: TILE_SIZE * pos.y };
@@ -42,7 +43,7 @@ Promise.all([loadFont(), loadEntities()]).then(([font, entityFactories]) => {
       cameraFollowsPlayer(player.pos, level);
     });
 
-    store.dispatch({ type: "LEVEL_LOADED", grid: level.grid });
+    store.dispatch({ type: "LEVEL_LOADED", grid, byTile, level });
   });
 });
 
