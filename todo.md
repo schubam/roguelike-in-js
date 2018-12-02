@@ -2,5 +2,9 @@
 
 ## Worked on last
 
-- Make items disappear: they have to be removed by the store. the store needs to be refactored or removed.
-- Use tiles for background
+- changing level
+- show enemies
+- make rooms/maps procedurally
+    - use patterns for ground
+    - paint ground first, then walls
+- combat (lose health)
