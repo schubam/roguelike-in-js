@@ -27,6 +27,8 @@ function findTiles(tile, grid) {
 function byTile(grid) {
   const object = {
     X: findTiles("X", grid),
+    "@": findTiles("@", grid),
+    ">": findTiles(">", grid),
     D: findTiles("D", grid),
     K: findTiles("K", grid)
   };

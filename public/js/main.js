@@ -14,7 +14,7 @@ const store = createGame();
 
 const camera = {
   pos: { x: 0, y: 0 },
-  size: { x: 16 * TILE_SIZE, y: 11 * TILE_SIZE }
+  size: { x: 16 * TILE_SIZE, y: 12 * TILE_SIZE }
 };
 
 setupInput(store, camera);

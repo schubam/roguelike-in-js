@@ -21,7 +21,7 @@ function statusbar(context, font, store) {
   const line1 = { x: 0, y: 27 * font.size };
   const line2 = { x: 0, y: 28 * font.size };
   const line3 = { x: 0, y: 29 * font.size };
-  context.clearRect(0, 24 * font.size, 32 * font.size, 6 * font.size);
+  context.clearRect(0, 26 * font.size, 32 * font.size, 6 * font.size);
 
   const state = store.getState();
   const { player, status } = state;
