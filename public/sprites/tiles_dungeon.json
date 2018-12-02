@@ -12,6 +12,26 @@
       "index": [14, 11]
     },
     {
+      "name": "gold",
+      "index": [13, 20]
+    },
+    {
+      "name": "key",
+      "index": [12, 20]
+    },
+    {
+      "name": "chest-closed",
+      "index": [14, 16]
+    },
+    {
+      "name": "stairs-up",
+      "index": [7, 16]
+    },
+    {
+      "name": "stairs-down",
+      "index": [7, 16]
+    },
+    {
       "name": "wall-generic",
       "index": [0, 8]
     },

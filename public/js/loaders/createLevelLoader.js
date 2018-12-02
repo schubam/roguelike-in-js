@@ -5,7 +5,7 @@ import Level from "../level.js";
 import { loadLevelData } from "../levelData.js";
 import { TILE_SIZE } from "../render.js";
 import loadColorPalette from "./loadColorPalette.js";
-import loadSpriteSheet from "./loadSpriteSheet.js";
+import loadDungeonTiles from "./loadDungeonTiles.js";
 
 async function setupBackground(grid, level, sprites, palette) {
   level.addLayer(await createBackgroundLayer(grid, sprites, palette));
@@ -28,7 +28,7 @@ function setupEntities(spec, level, entityFactories) {
 
 export function createLevelLoader(entityFactories) {
   return async function(name) {
-    const sprites = await loadSpriteSheet("tiles_dungeon");
+    const sprites = await loadDungeonTiles();
     const palette = await loadColorPalette();
     const { grid, byTile, levelSpec } = await loadLevelData(name);
     const level = new Level(grid);

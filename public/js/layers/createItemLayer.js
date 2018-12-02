@@ -1,4 +1,4 @@
-import { TILE_SIZE, renderPaletteTile } from "../render.js";
+import { TILE_SIZE, renderPaletteTile, renderSpriteTile } from "../render.js";
 import createSpriteLayer from "../layers/createSpriteLayer.js";
 import Entity from "../entity.js";
 
@@ -6,10 +6,10 @@ function makeItem(tile, x, y, sprites, palette) {
   const entity = new Entity();
   entity.tile = tile;
   entity.draw = function(context) {
-    if (tile === "D") {
-      sprites.drawTile("door-closed", context, 0, 0);
+    if ([..."KDX>"].includes(tile)) {
+      renderSpriteTile(tile, 0, 0, context, sprites);
     } else {
-      renderPaletteTile(tile, 0, 0, context, palette);
+      // renderPaletteTile(tile, 0, 0, context, palette);
     }
   };
   entity.pos = { x: x * TILE_SIZE, y: y * TILE_SIZE };

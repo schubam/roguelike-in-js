@@ -1,35 +1,4 @@
-import { createBuffer, TILE_SIZE } from "../render.js";
-
-function renderSpriteTile(tile, x, y, context, sprites) {
-  let name;
-  switch (tile) {
-    case " ":
-      name = "ground-generic";
-      break;
-    case "[":
-      name = "wall-top-left";
-      break;
-    case "]":
-      name = "wall-top-right";
-      break;
-    case "{":
-      name = "wall-bottom-left";
-      break;
-    case "}":
-      name = "wall-bottom-right";
-      break;
-    case "W":
-      name = "wall-top-inner";
-      break;
-    case "|":
-      name = "wall-side-inner";
-      break;
-
-    default:
-      break;
-  }
-  sprites.drawTile(name, context, x, y);
-}
+import { createBuffer, TILE_SIZE, renderSpriteTile } from "../render.js";
 
 export default async function createBackgroundLayer(grid, sprites) {
   const { width, height } = grid;

@@ -43,3 +43,34 @@ export function renderPaletteTile(tile, x, y, context, palette) {
     TILE_SIZE
   );
 }
+
+const tileForName = name => {
+  switch (name) {
+    case " ":
+      return "ground-generic";
+    case "[":
+      return "wall-top-left";
+    case "]":
+      return "wall-top-right";
+    case "{":
+      return "wall-bottom-left";
+    case "}":
+      return "wall-bottom-right";
+    case "W":
+      return "wall-top-inner";
+    case "|":
+      return "wall-side-inner";
+    case "D":
+      return "door-closed";
+    case ">":
+      return "stairs-down";
+    case "K":
+      return "key";
+    case "X":
+      return "gold";
+  }
+};
+
+export function renderSpriteTile(tile, x, y, context, sprites) {
+  sprites.drawTile(tileForName(tile), context, x, y);
+}
