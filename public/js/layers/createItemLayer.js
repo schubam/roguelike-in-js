@@ -2,11 +2,15 @@ import { TILE_SIZE, renderPaletteTile } from "../render.js";
 import createSpriteLayer from "../layers/createSpriteLayer.js";
 import Entity from "../entity.js";
 
-function makeItem(tile, x, y, palette) {
+function makeItem(tile, x, y, sprites, palette) {
   const entity = new Entity();
   entity.tile = tile;
   entity.draw = function(context) {
-    renderPaletteTile(tile, 0, 0, context, palette);
+    if (tile === "D") {
+      sprites.drawTile("door-closed", context, 0, 0);
+    } else {
+      renderPaletteTile(tile, 0, 0, context, palette);
+    }
   };
   entity.pos = { x: x * TILE_SIZE, y: y * TILE_SIZE };
   entity.update = function(dt, byTile) {
@@ -28,11 +32,11 @@ function makeItem(tile, x, y, palette) {
   return entity;
 }
 
-export default function createItemLayer(byTile, level, palette) {
+export default function createItemLayer(byTile, level, sprites, palette) {
   Object.keys(byTile).forEach(tile => {
     byTile[tile].forEach(({ x, y }) => {
       if (!(tile === " " || tile === "W")) {
-        level.addItem(makeItem(tile, x, y, palette));
+        level.addItem(makeItem(tile, x, y, sprites, palette));
       }
     });
   });

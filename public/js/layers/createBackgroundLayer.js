@@ -1,6 +1,37 @@
-import { createBuffer, TILE_SIZE, renderPaletteTile } from "../render.js";
+import { createBuffer, TILE_SIZE } from "../render.js";
 
-export default function createBackgroundLayer(grid, palette) {
+function renderSpriteTile(tile, x, y, context, sprites) {
+  let name;
+  switch (tile) {
+    case " ":
+      name = "ground-generic";
+      break;
+    case "[":
+      name = "wall-top-left";
+      break;
+    case "]":
+      name = "wall-top-right";
+      break;
+    case "{":
+      name = "wall-bottom-left";
+      break;
+    case "}":
+      name = "wall-bottom-right";
+      break;
+    case "W":
+      name = "wall-top-inner";
+      break;
+    case "|":
+      name = "wall-side-inner";
+      break;
+
+    default:
+      break;
+  }
+  sprites.drawTile(name, context, x, y);
+}
+
+export default async function createBackgroundLayer(grid, sprites) {
   const { width, height } = grid;
   const buffer = createBuffer(width, height);
   const context = buffer.getContext("2d");
@@ -10,10 +41,10 @@ export default function createBackgroundLayer(grid, palette) {
     const col = grid.data[x];
     if (col) {
       col.forEach((tile, y) => {
-        if ("W" === tile) {
-          renderPaletteTile(tile, x, y, context, palette);
+        if ([..."W[]{}|"].includes(tile)) {
+          renderSpriteTile(tile, x, y, context, sprites);
         } else {
-          renderPaletteTile(" ", x, y, context, palette);
+          renderSpriteTile(" ", x, y, context, sprites);
         }
       });
     }

@@ -1,0 +1,51 @@
+{
+  "imageURL": "/img/tiles_dungeon.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "tiles": [
+    {
+      "name": "ground-generic",
+      "index": [7, 2]
+    },
+    {
+      "name": "door-closed",
+      "index": [14, 11]
+    },
+    {
+      "name": "wall-generic",
+      "index": [0, 8]
+    },
+    {
+      "name": "wall-top-left",
+      "index": [1, 9]
+    },
+    {
+      "name": "wall-top-inner",
+      "index": [2, 8]
+    },
+    {
+      "name": "wall-top-right",
+      "index": [2, 9]
+    },
+    {
+      "name": "wall-side-top",
+      "index": [0, 9]
+    },
+    {
+      "name": "wall-side-inner",
+      "index": [0, 10]
+    },
+    {
+      "name": "wall-side-lower",
+      "index": [0, 11]
+    },
+    {
+      "name": "wall-bottom-left",
+      "index": [1, 10]
+    },
+    {
+      "name": "wall-bottom-right",
+      "index": [2, 10]
+    }
+  ]
+}
