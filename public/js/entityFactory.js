@@ -1,5 +1,6 @@
-import Entity from "./entity.js";
+import GameObject from "./gameObject.js";
 import loadSpriteSheet from "./loaders/loadSpriteSheet.js";
+import playerFactory from "./playerFactory.js";
 
 export async function loadEntities() {
   const sprite = await loadSpriteSheet("chara_hero");
@@ -28,22 +29,8 @@ function dudeFactory(sprite) {
   }
 
   return function createDude() {
-    const dude = new Entity();
+    const dude = new GameObject();
     dude.draw = drawDude;
     return dude;
-  };
-}
-
-function playerFactory(sprite) {
-  const walkAnim = sprite.animations.get("player-idle");
-  function drawPlayer(context) {
-    // sprite.draw(walkAnim(this.lifetime), context, 0, 0);
-    sprite.draw("player-idle-1", context, 0, 0);
-  }
-
-  return function createplayer() {
-    const player = new Entity();
-    player.draw = drawPlayer;
-    return player;
   };
 }

@@ -8,6 +8,7 @@ import { TILE_SIZE } from "./render.js";
 import { createGame } from "./store.js";
 import Timer from "./timer.js";
 import { createUserInterfaceLayer } from "./userInterface.js";
+import * as States from "./components/states.js";
 
 async function main() {
   const canvas = document.getElementById("screen");
@@ -42,9 +43,20 @@ async function main() {
           timer.start();
 
           store.subscribe(() => {
-            let ppos = store.getState().player.position;
-            player.pos = { x: ppos.x * TILE_SIZE, y: ppos.y * TILE_SIZE };
-            cameraFollowsPlayer(player.pos, level);
+            const ppos = store.getState().player.position;
+            const direction = store.getState().player.direction;
+            if (direction) {
+              player.movement.animateTo(
+                player,
+                ppos.x * TILE_SIZE,
+                ppos.y * TILE_SIZE,
+                direction
+              );
+              cameraFollowsPlayer(
+                { x: ppos.x * TILE_SIZE, y: ppos.y * TILE_SIZE },
+                level
+              );
+            }
           });
 
           store.dispatch({ type: "LEVEL_LOADED", grid, byTile, level });

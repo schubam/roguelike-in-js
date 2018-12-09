@@ -16,6 +16,54 @@
       "index": [7, 1]
     },
     {
+      "name": "player-right-1",
+      "index": [1, 10]
+    },
+    {
+      "name": "player-right-2",
+      "index": [4, 10]
+    },
+    {
+      "name": "player-right-3",
+      "index": [7, 10]
+    },
+    {
+      "name": "player-right-4",
+      "index": [7, 10]
+    },
+    {
+      "name": "player-up-1",
+      "index": [1, 13]
+    },
+    {
+      "name": "player-up-2",
+      "index": [4, 13]
+    },
+    {
+      "name": "player-up-3",
+      "index": [7, 13]
+    },
+    {
+      "name": "player-up-4",
+      "index": [7, 13]
+    },
+    {
+      "name": "player-down-1",
+      "index": [1, 7]
+    },
+    {
+      "name": "player-down-2",
+      "index": [4, 7]
+    },
+    {
+      "name": "player-down-3",
+      "index": [7, 7]
+    },
+    {
+      "name": "player-down-4",
+      "index": [7, 7]
+    },
+    {
       "name": "player-action-1",
       "index": [1, 4]
     },
@@ -51,6 +99,41 @@
         "player-idle-3",
         "player-idle-3",
         "player-idle-2"
+      ]
+    },
+    {
+      "name": "player-right",
+      "frameLength": 0.1,
+      "frames": [
+        "player-right-1",
+        "player-right-2",
+        "player-right-3",
+        "player-right-4"
+      ]
+    },
+    {
+      "name": "player-left",
+      "frameLength": 0.1,
+      "frames": [
+        "player-left-1",
+        "player-left-2",
+        "player-left-3",
+        "player-left-4"
+      ]
+    },
+    {
+      "name": "player-up",
+      "frameLength": 0.1,
+      "frames": ["player-up-1", "player-up-2", "player-up-3", "player-up-4"]
+    },
+    {
+      "name": "player-down",
+      "frameLength": 0.1,
+      "frames": [
+        "player-down-1",
+        "player-down-2",
+        "player-down-3",
+        "player-down-4"
       ]
     },
     {

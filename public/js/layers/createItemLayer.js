@@ -1,9 +1,9 @@
 import { TILE_SIZE, renderPaletteTile, renderSpriteTile } from "../render.js";
 import createSpriteLayer from "../layers/createSpriteLayer.js";
-import Entity from "../entity.js";
+import GameObject from "../gameObject.js";
 
 function makeItem(tile, x, y, sprites, palette) {
-  const entity = new Entity();
+  const entity = new GameObject();
   entity.tile = tile;
   entity.draw = function(context) {
     if ([..."KDX>"].includes(tile)) {
