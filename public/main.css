@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 
-#screen {
+#screen, #testScreen {
   display: block;
   image-rendering: pixelated;
   height: 90vh;

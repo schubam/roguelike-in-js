@@ -3,14 +3,28 @@ import loadSpriteSheet from "./loaders/loadSpriteSheet.js";
 
 export async function loadEntities() {
   const sprite = await loadSpriteSheet("chara_hero");
-  // const sprite = await loadSpriteSheet("character");
-  return createEntityFactories(sprite);
+  const dude = await loadSpriteSheet("character");
+  return {
+    dude: dudeFactory(dude),
+    player: playerFactory(sprite)
+  };
 }
 
 function dudeFactory(sprite) {
-  // const walkAnim = sprite.animations.get("dude-walk-right");
+  const walkAnims = {
+    right: sprite.animations.get("red-dude-walk-right"),
+    left: sprite.animations.get("red-dude-walk-left"),
+    up: sprite.animations.get("red-dude-walk-up"),
+    down: sprite.animations.get("red-dude-walk-down")
+  };
+
+  const animationSprite = dude => {
+    return "red-dude-right-1";
+    return walkAnims.down(dude.lifetime);
+  };
+
   function drawDude(context) {
-    // sprite.draw(walkAnim(this.lifetime), context, 0, 0);
+    sprite.draw(animationSprite(this), context, 0, 0);
   }
 
   return function createDude() {
@@ -31,12 +45,5 @@ function playerFactory(sprite) {
     const player = new Entity();
     player.draw = drawPlayer;
     return player;
-  };
-}
-
-function createEntityFactories(sprite) {
-  return {
-    dude: dudeFactory(sprite),
-    player: playerFactory(sprite)
   };
 }

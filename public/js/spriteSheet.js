@@ -38,8 +38,20 @@ export class SpriteSheet {
   define(name, x, y, width, height) {
     const buffer = createBuffer(width, height);
     const context = buffer.getContext("2d");
+
     context.drawImage(this.image, x, y, width, height, 0, 0, width, height);
     this.tiles.set(name, buffer);
+
+    if (name.includes("-right-")) {
+      const flipName = name.replace("-right-", "-left-");
+      const buf = createBuffer(width, height);
+      const ctx = buf.getContext("2d");
+      ctx.scale(-1, 1);
+      ctx.translate(-width, 0);
+      ctx.drawImage(this.image, x, y, width, height, 0, 0, width, height);
+      this.tiles.set(flipName, buf);
+      console.log("Flip name: ", flipName);
+    }
   }
 
   defineTile(name, x, y) {
@@ -65,7 +77,18 @@ export class SpriteSheet {
     this.drawTile(tile, context, x, y);
   }
 
-  drawProjected(name, context, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
+  drawProjected(
+    name,
+    context,
+    sx,
+    sy,
+    sWidth,
+    sHeight,
+    dx,
+    dy,
+    dWidth,
+    dHeight
+  ) {
     const buffer = this.tiles.get(name);
     context.drawImage(buffer, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
   }

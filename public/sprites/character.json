@@ -4,40 +4,111 @@
   "tileHeight": 16,
   "tiles": [
     {
-      "name": "player-front-1",
+      "name": "brown-haired-dude-right-1",
+      "index": [6, 18]
+    },
+    {
+      "name": "brown-haired-dude-right-2",
+      "index": [7, 18]
+    },
+    {
+      "name": "brown-haired-dude-right-3",
+      "index": [8, 18]
+    },
+    {
+      "name": "brown-haired-dude-front-1",
       "index": [6, 19]
     },
     {
-      "name": "player-front-2",
+      "name": "brown-haired-dude-front-2",
       "index": [7, 19]
     },
     {
-      "name": "player-front-3",
+      "name": "brown-haired-dude-front-3",
       "index": [8, 19]
     },
     {
-      "name": "dude-right-1",
+      "name": "brown-haired-dude-up-1",
+      "index": [6, 20]
+    },
+    {
+      "name": "brown-haired-dude-up-2",
+      "index": [7, 20]
+    },
+    {
+      "name": "brown-haired-dude-up-3",
+      "index": [8, 20]
+    },
+    {
+      "name": "red-dude-idle",
       "index": [15, 12]
     },
     {
-      "name": "dude-right-2",
+      "name": "red-dude-right-1",
+      "index": [15, 12]
+    },
+    {
+      "name": "red-dude-right-2",
       "index": [16, 12]
     },
     {
-      "name": "dude-right-3",
+      "name": "red-dude-right-3",
       "index": [17, 12]
+    },
+    {
+      "name": "red-dude-down-1",
+      "index": [15, 13]
+    },
+    {
+      "name": "red-dude-down-2",
+      "index": [16, 13]
+    },
+    {
+      "name": "red-dude-down-3",
+      "index": [17, 13]
+    },
+    {
+      "name": "red-dude-up-1",
+      "index": [15, 14]
+    },
+    {
+      "name": "red-dude-up-2",
+      "index": [16, 14]
+    },
+    {
+      "name": "red-dude-up-3",
+      "index": [17, 14]
     }
   ],
   "animations": [
     {
-      "name": "player-walk-front",
+      "name": "brown-haired-dude-walk-front",
       "frameLength": 0.25,
-      "frames": ["player-front-1", "player-front-2", "player-front-3"]
+      "frames": [
+        "brown-haired-dude-front-1",
+        "brown-haired-dude-front-2",
+        "brown-haired-dude-front-3"
+      ]
     },
     {
-      "name": "dude-walk-right",
+      "name": "red-dude-walk-right",
       "frameLength": 0.25,
-      "frames": ["dude-right-1", "dude-right-2", "dude-right-3"]
+      "frames": ["red-dude-right-1", "red-dude-right-2", "red-dude-right-3"]
+    },
+    {
+      "name": "red-dude-walk-left",
+      "frameLength": 0.25,
+      "frames": ["red-dude-left-1", "red-dude-left-2", "red-dude-left-3"]
+    },
+    {
+      "name": "red-dude-walk-down",
+      "frameLength": 0.25,
+      "frames": ["red-dude-down-1", "red-dude-down-2", "red-dude-down-3"]
+    },
+    {
+      "name": "red-dude-walk-up",
+      "frameLength": 0.25,
+      "frames": ["red-dude-up-1", "red-dude-up-2", "red-dude-up-3"]
     }
   ]
 }
