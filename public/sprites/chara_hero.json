@@ -16,6 +16,18 @@
       "index": [7, 1]
     },
     {
+      "name": "player-selected-1",
+      "index": [1, 4]
+    },
+    {
+      "name": "player-selected-2",
+      "index": [4, 4]
+    },
+    {
+      "name": "player-selected-3",
+      "index": [7, 4]
+    },
+    {
       "name": "player-right-1",
       "index": [1, 10]
     },
@@ -99,6 +111,30 @@
         "player-idle-3",
         "player-idle-3",
         "player-idle-2"
+      ]
+    },
+    {
+      "name": "player-selected",
+      "frameLength": 0.1,
+      "frames": [
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-1",
+        "player-selected-2",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-3",
+        "player-selected-2"
       ]
     },
     {
