@@ -4,62 +4,50 @@ export default class Movement {
   constructor() {
     this.name = "movement";
     this.velocity = 50;
-    this.targetX = null;
-    this.targetY = null;
+    this.animations = [];
   }
 
   update(gameObject, dt, level) {
-    if (this.targetX && this.targetY) {
+    if (this.animations.length > 0) {
+      const anim = this.animations[0];
+      gameObject.setState(anim.state);
+
       if (gameObject.state === States.MOVEMENT_RIGHT) {
         gameObject.pos.x += this.velocity * dt;
-
-        if (gameObject.pos.x > this.targetX) {
-          gameObject.pos.x = this.targetX;
-          gameObject.setState(States.IDLE);
-          this.targetX = null;
-          this.targetY = null;
-          console.log("animation finished");
+        if (gameObject.pos.x > anim.x) {
+          gameObject.pos.x = anim.x;
+          this.finalize(gameObject);
         }
-
-        console.log(gameObject.pos.x);
       } else if (gameObject.state === States.MOVEMENT_LEFT) {
         gameObject.pos.x -= this.velocity * dt;
-
-        if (gameObject.pos.x < this.targetX) {
-          gameObject.pos.x = this.targetX;
-          gameObject.setState(States.IDLE);
-          this.targetX = null;
-          this.targetY = null;
-          console.log("animation finished");
+        if (gameObject.pos.x < anim.x) {
+          gameObject.pos.x = anim.x;
+          this.finalize(gameObject);
         }
-
-        console.log(gameObject.pos.x);
       } else if (gameObject.state === States.MOVEMENT_DOWN) {
         gameObject.pos.y += this.velocity * dt;
-
-        if (gameObject.pos.y > this.targetY) {
-          gameObject.pos.y = this.targetY;
-          gameObject.setState(States.IDLE);
-          this.targetX = null;
-          this.targetY = null;
-          console.log("animation finished");
+        if (gameObject.pos.y > anim.y) {
+          gameObject.pos.y = anim.y;
+          this.finalize(gameObject);
         }
-
-        console.log(gameObject.pos.y);
       } else if (gameObject.state === States.MOVEMENT_UP) {
         gameObject.pos.y -= this.velocity * dt;
-
-        if (gameObject.pos.y < this.targetY) {
-          gameObject.pos.y = this.targetY;
-          gameObject.setState(States.IDLE);
-          this.targetX = null;
-          this.targetY = null;
-          console.log("animation finished");
+        if (gameObject.pos.y < anim.y) {
+          gameObject.pos.y = anim.y;
+          this.finalize(gameObject);
         }
-
-        console.log(gameObject.pos.y);
       }
     }
+  }
+
+  finalize(gameObject) {
+    this.animations.shift();
+    if (this.animations.length > 0) {
+      gameObject.setState(this.animations[0].state);
+    } else {
+      gameObject.setState(States.IDLE);
+    }
+    console.log("animation finished");
   }
 
   animateTo(gameObject, x, y, direction) {
@@ -68,8 +56,7 @@ export default class Movement {
     if (direction.x === 1) state = States.MOVEMENT_RIGHT;
     if (direction.y === -1) state = States.MOVEMENT_UP;
     if (direction.y === 1) state = States.MOVEMENT_DOWN;
-    gameObject.setState(state);
-    this.targetX = x;
-    this.targetY = y;
+
+    this.animations.push({ state, x, y });
   }
 }

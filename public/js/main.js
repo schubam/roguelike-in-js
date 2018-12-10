@@ -39,6 +39,7 @@ async function main() {
           timer.update = function(dt) {
             level.update(dt);
             level.draw(context, camera);
+            cameraFollowsPlayer(player.pos, level);
           };
           timer.start();
 
@@ -52,10 +53,6 @@ async function main() {
                 ppos.y * TILE_SIZE,
                 direction
               );
-              cameraFollowsPlayer(
-                { x: ppos.x * TILE_SIZE, y: ppos.y * TILE_SIZE },
-                level
-              );
             }
           });
 
@@ -65,7 +62,7 @@ async function main() {
     }
   );
 
-  startLevel("1");
+  startLevel("2");
 
   function cameraFollowsPlayer(pos, level) {
     camera.pos.x = Math.min(
