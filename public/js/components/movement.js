@@ -3,7 +3,7 @@ import * as States from "./states.js";
 export default class Movement {
   constructor() {
     this.name = "movement";
-    this.velocity = 50;
+    this.velocity = 75;
     this.animations = [];
   }
 

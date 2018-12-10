@@ -124,7 +124,7 @@ const player = (state = playerDefaults, action) => {
 const enemies = (state = [], action) => {
   switch (action.type) {
     case "LEVEL_LOADED": {
-      return spawnEnemies(action.grid);
+      // return spawnEnemies(action.grid);
     }
 
     case "ENEMY_DIED": {

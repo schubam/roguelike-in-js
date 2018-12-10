@@ -24,12 +24,12 @@
       "index": [14, 16]
     },
     {
-      "name": "stairs-up",
+      "name": "stairs-down",
       "index": [7, 16]
     },
     {
-      "name": "stairs-down",
-      "index": [7, 16]
+      "name": "stairs-up",
+      "index": [8, 16]
     },
     {
       "name": "wall-generic",

@@ -92,7 +92,6 @@ async function testScreen() {
     sheets.forEach(sheet => {
       sheet.tiles.forEach((_, key) => {
         sheet.drawTile(key, context, index % 16, Math.floor(index / 16));
-        console.log(key);
         index++;
       });
     });

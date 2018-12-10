@@ -50,7 +50,6 @@ export class SpriteSheet {
       ctx.translate(-width, 0);
       ctx.drawImage(this.image, x, y, width, height, 0, 0, width, height);
       this.tiles.set(flipName, buf);
-      console.log("Flip name: ", flipName);
     }
   }
 
