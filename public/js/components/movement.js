@@ -47,7 +47,6 @@ export default class Movement {
     } else {
       gameObject.setState(States.IDLE);
     }
-    console.log("animation finished");
   }
 
   animateTo(gameObject, x, y, direction) {
