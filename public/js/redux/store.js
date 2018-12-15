@@ -17,6 +17,11 @@ export const createLevelStore = () => {
 export const createGame = () => {
   const store = createStore(combineReducers({ playerStats, status }));
   stores.push(store);
+
+  store.start = function() {
+    this.playLevel("1");
+  };
+
   return store;
 };
 

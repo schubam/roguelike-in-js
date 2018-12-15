@@ -16,7 +16,7 @@ export async function playLevelFactory(game, context) {
   const levelStore = createLevelStore();
   return function(levelname) {
     levelLoader(levelname).then(levelData => {
-      setupInput(levelStore);
+      setupInput(game, levelStore);
       const { level, grid, byTile } = levelData;
       const camera = new Camera(
         { x: 0, y: 0 },

@@ -7,7 +7,7 @@ async function main() {
   const context = canvas.getContext("2d");
   const game = createGame();
   game.playLevel = await playLevelFactory(game, context);
-  game.playLevel("1");
+  game.start();
 }
 
 main();
