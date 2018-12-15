@@ -24,6 +24,7 @@ function removeItem(tile, position, g, byTile, level) {
     e => !(e.x === position.x && e.y === position.y)
   );
   level.removeItemAtPosition(position.x * TILE_SIZE, position.y * TILE_SIZE);
+  level.grid = grid;
   return { grid, byTile: { ...byTile, keys } };
 }
 

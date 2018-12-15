@@ -1,13 +1,14 @@
+import Camera from "./camera.js";
 import { loadEntities } from "./entityFactory.js";
 import { setupInput } from "./input.js";
+import { createFOVLayer } from "./layers/createFOVLayer.js";
+import { createUserInterfaceLayer } from "./layers/createUserInterface.js";
 import { playerStartingPosition } from "./levelData.js";
 import { createLevelLoader } from "./loaders/createLevelLoader.js";
 import { loadFont } from "./loaders/loadFont.js";
 import { createLevelStore, dispatchAll } from "./redux/store.js";
 import { TILE_SIZE } from "./render.js";
 import Timer from "./timer.js";
-import Camera from "./camera.js";
-import { createUserInterfaceLayer } from "./userInterface.js";
 
 export async function playLevelFactory(game, context) {
   const font = await loadFont();
@@ -30,9 +31,11 @@ export async function playLevelFactory(game, context) {
       player.pos = { x: TILE_SIZE * pos.x, y: TILE_SIZE * pos.y };
       level.addEntity(player);
       level.addLayer(createUserInterfaceLayer(font, game, levelStore));
+
+      // createFOVLayer(camera, levelStore).then(layer => level.addLayer(layer));
+
       const timer = new Timer(1 / 60);
       timer.update = function(dt) {
-        if (Math.random() > 0.99) console.log("Timer alive: ", timer.id);
         level.update(dt);
         level.draw(context, camera);
         camera.move(player.pos);

@@ -78,11 +78,15 @@ export function tryMovePlayer(game, levelStore, direction) {
       message: "Arrived at staircase, going down..."
     });
     game.playLevel("2");
-  } else if ([..."W|{}[]"].some(c => c === field)) {
+  } else if (isWall(field)) {
     // console.log("Path blocked, can't move to ", to);
   } else {
     dispatchAll({ type: "PLAYER_MOVE", from, to });
   }
+}
+
+export function isWall(field) {
+  return [..."W|{}[]"].some(c => c === field);
 }
 
 function isEnemy(pos, enemies) {
