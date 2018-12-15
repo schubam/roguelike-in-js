@@ -1,5 +1,8 @@
+import guid from "./guid.js";
+
 export default class Timer {
   constructor(deltaTime = 1 / 60) {
+    this.id = guid();
     let accumulatedTime = 0;
     let lastTime = 0;
 

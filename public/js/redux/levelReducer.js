@@ -47,7 +47,6 @@ const level = (state, action) => {
     }
     case "LEVEL_LOADED": {
       return {
-        ...state,
         grid: action.grid,
         byTile: action.byTile,
         level: action.level

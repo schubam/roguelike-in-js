@@ -4,7 +4,7 @@ const player = (state = {}, action) => {
   switch (action.type) {
     case "LEVEL_LOADED": {
       const position = playerStartingPosition(action.grid);
-      return { ...state, position };
+      return { position };
     }
     case "PLAYER_MOVE": {
       return {
