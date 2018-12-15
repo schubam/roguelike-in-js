@@ -1,3 +1,4 @@
+import guid from "../guid.js";
 import { combineReducers } from "./combineReducers.js";
 import { createStore } from "./createStore.js";
 import enemies from "./enemiesReducer.js";
@@ -25,5 +26,8 @@ export const createGame = () => {
   return store;
 };
 
-export const dispatchAll = action =>
+export const dispatchAll = action => {
+  action.id = guid();
+  console.log("dispatching", action.type, action.id);
   stores.forEach(store => store.dispatch(action));
+};

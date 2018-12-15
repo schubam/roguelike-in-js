@@ -42,7 +42,7 @@ function statusbar(context, font, gameStore, levelStore) {
   line2Text += playerStat(playerStats, "keys", " ");
   font.print(line2Text, context, line2.x, line2.y);
 
-  const text = status.messages[status.messages.length - 1];
+  const text = status.messages[status.messages.length - 1].message;
   font.print(text, context, line3.x, line3.y);
 }
 

@@ -2,26 +2,30 @@ import guid from "./guid.js";
 
 export default class Timer {
   constructor(deltaTime = 1 / 60) {
-    this.id = guid();
-    let accumulatedTime = 0;
-    let lastTime = 0;
+    if (!Timer.instance) {
+      this.id = guid();
+      let accumulatedTime = 0;
+      let lastTime = 0;
 
-    this.updateProxy = time => {
-      accumulatedTime += (time - lastTime) / 1000;
+      this.updateProxy = time => {
+        accumulatedTime += (time - lastTime) / 1000;
 
-      if (accumulatedTime > 1) {
-        accumulatedTime = 1;
-      }
+        if (accumulatedTime > 1) {
+          accumulatedTime = 1;
+        }
 
-      while (accumulatedTime > deltaTime) {
-        this.update(deltaTime);
-        accumulatedTime -= deltaTime;
-      }
+        while (accumulatedTime > deltaTime) {
+          this.update(deltaTime);
+          accumulatedTime -= deltaTime;
+        }
 
-      lastTime = time;
+        lastTime = time;
 
-      this.enqueue();
-    };
+        this.enqueue();
+      };
+      Timer.instance = this;
+    }
+    return Timer.instance;
   }
 
   enqueue() {

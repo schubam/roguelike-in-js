@@ -77,7 +77,7 @@ export function tryMovePlayer(game, levelStore, direction) {
       to,
       message: "Arrived at staircase, going down..."
     });
-    startLevel("2");
+    game.playLevel("2");
   } else if ([..."W|{}[]"].some(c => c === field)) {
     // console.log("Path blocked, can't move to ", to);
   } else {
