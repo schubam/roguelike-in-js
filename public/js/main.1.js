@@ -13,27 +13,36 @@ import * as States from "./components/states.js";
 async function main() {
   const canvas = document.getElementById("screen");
   const context = canvas.getContext("2d");
-  const store = createGame();
-
-  const camera = {
-    pos: { x: 0, y: 0 },
-    size: { x: 16 * TILE_SIZE, y: 12 * TILE_SIZE }
-  };
-
-  setupInput(store, camera);
+  const game = createGame();
 
   const startLevel = await Promise.all([loadFont(), loadEntities()]).then(
     ([font, entityFactories]) => {
       const levelLoader = createLevelLoader(entityFactories);
       return function(levelname) {
         levelLoader(levelname).then(levelData => {
+          function cameraFollowsPlayer(pos, level) {
+            camera.pos.x = Math.min(
+              Math.max(0, pos.x - camera.size.x / 2),
+              level.grid.width * TILE_SIZE - camera.size.x
+            );
+            camera.pos.y = Math.min(
+              Math.max(0, pos.y - 5 * TILE_SIZE),
+              level.grid.height * TILE_SIZE - camera.size.y
+            );
+          }
+
+          const camera = {
+            pos: { x: 0, y: 0 },
+            size: { x: 16 * TILE_SIZE, y: 12 * TILE_SIZE }
+          };
+          setupInput(game, camera);
           const { level, grid, byTile } = levelData;
           const pos = playerStartingPosition(level.grid);
           const player = entityFactories["player"]();
           player.pos = { x: TILE_SIZE * pos.x, y: TILE_SIZE * pos.y };
           level.addEntity(player);
 
-          level.addLayer(createUserInterfaceLayer(font, store));
+          level.addLayer(createUserInterfaceLayer(font, game));
 
           const timer = new Timer(1 / 60);
           timer.update = function(dt) {
@@ -43,9 +52,9 @@ async function main() {
           };
           timer.start();
 
-          store.subscribe(() => {
-            const ppos = store.getState().player.position;
-            const direction = store.getState().player.direction;
+          game.subscribe(() => {
+            const ppos = game.getState().player.position;
+            const direction = game.getState().player.direction;
             if (direction) {
               player.movement.animateTo(
                 player,
@@ -56,24 +65,13 @@ async function main() {
             }
           });
 
-          store.dispatch({ type: "LEVEL_LOADED", grid, byTile, level });
+          game.dispatch({ type: "LEVEL_LOADED", grid, byTile, level });
         });
       };
     }
   );
 
   startLevel("1");
-
-  function cameraFollowsPlayer(pos, level) {
-    camera.pos.x = Math.min(
-      Math.max(0, pos.x - camera.size.x / 2),
-      level.grid.width * TILE_SIZE - camera.size.x
-    );
-    camera.pos.y = Math.min(
-      Math.max(0, pos.y - 5 * TILE_SIZE),
-      level.grid.height * TILE_SIZE - camera.size.y
-    );
-  }
 }
 
 main();
