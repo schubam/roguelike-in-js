@@ -5,7 +5,7 @@ import { createLevelLoader } from "./loaders/createLevelLoader.js";
 import { loadFont } from "./loaders/loadFont.js";
 import loadSpriteSheet from "./loaders/loadSpriteSheet.js";
 import { TILE_SIZE } from "./render.js";
-import { createGame } from "./redux/store.js";
+import { createGame, createLevelStore } from "./redux/store.js";
 import Timer from "./timer.js";
 import { createUserInterfaceLayer } from "./userInterface.js";
 import * as States from "./components/states.js";
@@ -35,14 +35,17 @@ async function main() {
             pos: { x: 0, y: 0 },
             size: { x: 16 * TILE_SIZE, y: 12 * TILE_SIZE }
           };
-          setupInput(game, camera);
+
+          const levelStore = createLevelStore();
+
+          setupInput(levelStore, camera);
           const { level, grid, byTile } = levelData;
           const pos = playerStartingPosition(level.grid);
           const player = entityFactories["player"]();
           player.pos = { x: TILE_SIZE * pos.x, y: TILE_SIZE * pos.y };
           level.addEntity(player);
 
-          level.addLayer(createUserInterfaceLayer(font, game));
+          level.addLayer(createUserInterfaceLayer(font, game, levelStore));
 
           const timer = new Timer(1 / 60);
           timer.update = function(dt) {
@@ -52,9 +55,9 @@ async function main() {
           };
           timer.start();
 
-          game.subscribe(() => {
-            const ppos = game.getState().player.position;
-            const direction = game.getState().player.direction;
+          levelStore.subscribe(() => {
+            const ppos = levelStore.getState().player.position;
+            const direction = levelStore.getState().player.direction;
             if (direction) {
               player.movement.animateTo(
                 player,
@@ -66,6 +69,7 @@ async function main() {
           });
 
           game.dispatch({ type: "LEVEL_LOADED", grid, byTile, level });
+          levelStore.dispatch({ type: "LEVEL_LOADED", grid, byTile, level });
         });
       };
     }
