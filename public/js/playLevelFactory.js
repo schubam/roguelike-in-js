@@ -32,7 +32,7 @@ export async function playLevelFactory(game, context) {
       level.addEntity(player);
       level.addLayer(createUserInterfaceLayer(font, game, levelStore));
 
-      // createFOVLayer(camera, levelStore).then(layer => level.addLayer(layer));
+      createFOVLayer(camera, levelStore).then(layer => level.addLayer(layer));
 
       const timer = new Timer(1 / 60);
       timer.update = function(dt) {
