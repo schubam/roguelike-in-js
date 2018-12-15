@@ -46,30 +46,30 @@ class KeyboardState {
   }
 }
 
-export function setupInput(store) {
+export function setupInput(game, levelStore) {
   const input = new KeyboardState();
 
   input.addMapping("ArrowRight", keyState => {
     if (keyState == RELEASED) {
-      tryMovePlayer(store, { x: 1, y: 0 });
+      tryMovePlayer(game, levelStore, { x: 1, y: 0 });
     }
   });
 
   input.addMapping("ArrowLeft", keyState => {
     if (keyState == RELEASED) {
-      tryMovePlayer(store, { x: -1, y: 0 });
+      tryMovePlayer(game, levelStore, { x: -1, y: 0 });
     }
   });
 
   input.addMapping("ArrowUp", keyState => {
     if (keyState == RELEASED) {
-      tryMovePlayer(store, { x: 0, y: -1 });
+      tryMovePlayer(game, levelStore, { x: 0, y: -1 });
     }
   });
 
   input.addMapping("ArrowDown", keyState => {
     if (keyState == RELEASED) {
-      tryMovePlayer(store, { x: 0, y: 1 });
+      tryMovePlayer(game, levelStore, { x: 0, y: 1 });
     }
   });
   input.listenTo(window);
