@@ -6,9 +6,19 @@ import player from "./playerReducer.js";
 import playerStats from "./playerStatsReducer.js";
 import status from "./statusReducer.js";
 
-export const createLevelStore = () =>
-  createStore(combineReducers({ level, enemies, player }));
+const stores = [];
+
+export const createLevelStore = () => {
+  const store = createStore(combineReducers({ level, enemies, player }));
+  stores.push(store);
+  return store;
+};
 
 export const createGame = () => {
-  return createStore(combineReducers({ playerStats, status }));
+  const store = createStore(combineReducers({ playerStats, status }));
+  stores.push(store);
+  return store;
 };
+
+export const dispatchAll = action =>
+  stores.forEach(store => store.dispatch(action));

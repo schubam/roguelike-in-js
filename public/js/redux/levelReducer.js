@@ -1,3 +1,6 @@
+import Grid from "../grid.js";
+import { TILE_SIZE } from "../render.js";
+
 // reducer -
 //   a reducer works with the current state
 //   executes an action,

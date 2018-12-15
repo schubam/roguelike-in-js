@@ -1,3 +1,5 @@
+import { dispatchAll } from "./redux/store.js";
+
 export function tryMovePlayer(store, direction) {
   const state = store.getState();
   const grid = state.level.grid;
@@ -11,32 +13,32 @@ export function tryMovePlayer(store, direction) {
   }
   const field = grid.get(to.x, to.y);
   if (field === "D") {
-    store.dispatch({ type: "STATUS_MESSAGE", message: "Door is locked" });
+    dispatchAll({ type: "STATUS_MESSAGE", message: "Door is locked" });
     if (state.player.keys > 0) {
-      store.dispatch({
+      dispatchAll({
         type: "OPEN_DOOR_WITH_KEY",
         message: "Opened door with key",
         position: to,
         tile: field
       });
-      store.dispatch({ type: "PLAYER_MOVE", from, to });
+      dispatchAll({ type: "PLAYER_MOVE", from, to });
     }
   } else if (field === "X") {
-    store.dispatch({
+    dispatchAll({
       type: "PICKUP_GOLD",
       message: "Gold picked up",
       position: to,
       tile: field
     });
-    store.dispatch({ type: "PLAYER_MOVE", from, to });
+    dispatchAll({ type: "PLAYER_MOVE", from, to });
   } else if (field === "K") {
-    store.dispatch({
+    dispatchAll({
       type: "PICKUP_KEY",
       message: "Key picked up",
       position: to,
       tile: field
     });
-    store.dispatch({ type: "PLAYER_MOVE", from, to });
+    dispatchAll({ type: "PLAYER_MOVE", from, to });
   } else if (field === " " && isEnemy(to, state)) {
     const attack = roll(state.player.strength);
     const enemy =
@@ -52,12 +54,12 @@ export function tryMovePlayer(store, direction) {
     let msg = `Attack (${attack}) > ${damage} Damage`;
     if (enemy.isDead) {
       msg += " > RIP";
-      store.dispatch({
+      dispatchAll({
         type: "ENEMY_DIED",
         id: enemy.id
       });
     }
-    store.dispatch({
+    dispatchAll({
       type: "ATTACK_ENEMY",
       from,
       to,
@@ -67,7 +69,7 @@ export function tryMovePlayer(store, direction) {
       message: msg
     });
   } else if (field === ">") {
-    store.dispatch({
+    dispatchAll({
       type: "LEVEL_EXIT",
       from,
       to,
@@ -77,7 +79,7 @@ export function tryMovePlayer(store, direction) {
   } else if ([..."W|{}[]"].some(c => c === field)) {
     // console.log("Path blocked, can't move to ", to);
   } else {
-    store.dispatch({ type: "PLAYER_MOVE", from, to });
+    dispatchAll({ type: "PLAYER_MOVE", from, to });
   }
 }
 
