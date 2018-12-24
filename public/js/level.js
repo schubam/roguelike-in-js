@@ -17,6 +17,14 @@ export default class Level {
     this.fov = layer;
   }
 
+  setUI(layer) {
+    this.ui = layer;
+  }
+
+  updateUI(context) {
+    this.ui(context)
+  }
+
   addEntity(entity) {
     this.entities.add(entity);
   }

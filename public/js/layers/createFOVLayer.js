@@ -6,28 +6,6 @@ const visible = Symbol("visible");
 const nonVisible = Symbol("non-visible");
 
 function scanline(rowY, row, playerX, playerY) {
-  const viewMap = new Array(row.length);
-  const yDistance = Math.abs(rowY - playerY);
-  // if (yDistance > 3) {
-  //   for (let i = 0; i < viewMap.length; i++) {
-  //     viewMap[i] = nonVisible;
-  //   }
-  // }
-  // else if (yDistance === 3) {
-  //   for (let i = 0; i < viewMap.length; i++) {
-  //     viewMap[i] = visible;
-  //   }
-  // } else if (yDistance === 2) {
-  //   for (let i = 0; i < viewMap.length; i++) {
-  //     viewMap[i] = visible;
-  //   }
-  // } else if (yDistance === 1) {
-  //   for (let i = 0; i < viewMap.length; i++) {
-  //     viewMap[i] = visible;
-  //   }
-  // }
-  // else if (yDistance <= 3) {
-  // rowY === playerY
   const left = row.slice(0, playerX).reverse();
   const right = row.slice(playerX + 1);
 
@@ -50,8 +28,6 @@ function scanline(rowY, row, playerX, playerY) {
     });
   });
   return [...ret[0].reverse(), visible, ...ret[1]];
-  // }
-  // return viewMap;
 }
 
 export async function createFOVLayer(camera, levelStore) {
@@ -88,7 +64,6 @@ export async function createFOVLayer(camera, levelStore) {
       }
     });
   });
-
   return function(context, camera) {
     context.drawImage(
       buffer,

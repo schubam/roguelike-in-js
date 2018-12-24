@@ -29,8 +29,8 @@ export async function playLevelFactory(game, context) {
       const player = entityFactories["player"]();
       const pos = playerStartingPosition(level.grid);
       player.pos = { x: TILE_SIZE * pos.x, y: TILE_SIZE * pos.y };
+      level.setUI(createUserInterfaceLayer(font, game, levelStore));
       level.addEntity(player);
-      level.addLayer(createUserInterfaceLayer(font, game, levelStore));
 
       const timer = new Timer(1 / 60);
       timer.update = function(dt) {
@@ -50,7 +50,9 @@ export async function playLevelFactory(game, context) {
             direction
           );
         }
-        createFOVLayer(camera, levelStore).then(layer => level.setFOV(layer));
+        level.updateUI(context);
+        // TODO uncomment to enable FOV
+        // createFOVLayer(camera, levelStore).then(layer => level.setFOV(layer));
       });
       dispatchAll({ type: "LEVEL_LOADED", grid, byTile, level });
     });

@@ -25,6 +25,7 @@ function dudeFactory(sprite) {
   };
 
   function drawDude(context) {
+    console.log("draw dude");
     sprite.draw(animationSprite(this), context, 0, 0);
   }
 
