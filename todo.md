@@ -2,6 +2,7 @@
 
 ## Worked on last
 
+- FOV
 - update UI with entity changes after collision (right now after state update gold disappears, but player not there yet)
 - use hero animations that are bigger than 16x16
 - show enemies
