@@ -86,7 +86,7 @@ export function tryMovePlayer(game, levelStore, direction) {
 }
 
 export function isWall(field) {
-  return [..."W|{}[]"].some(c => c === field);
+  return [..."W|{}[]D"].some(c => c === field);
 }
 
 function isEnemy(pos, enemies) {

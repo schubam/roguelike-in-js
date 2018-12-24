@@ -6,10 +6,15 @@ export default class Level {
     this.entities = new Set();
     this.items = new Set();
     this.compositor = new Compositor();
+    this.fov = () => null;
   }
 
   addLayer(layer) {
     this.compositor.add(layer);
+  }
+
+  setFOV(layer) {
+    this.fov = layer;
   }
 
   addEntity(entity) {
@@ -30,6 +35,7 @@ export default class Level {
 
   draw(context, camera) {
     this.compositor.draw(context, camera);
+    this.fov(context, camera);
   }
 
   update(dt) {

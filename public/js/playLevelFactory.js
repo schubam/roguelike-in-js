@@ -32,8 +32,6 @@ export async function playLevelFactory(game, context) {
       level.addEntity(player);
       level.addLayer(createUserInterfaceLayer(font, game, levelStore));
 
-      createFOVLayer(camera, levelStore).then(layer => level.addLayer(layer));
-
       const timer = new Timer(1 / 60);
       timer.update = function(dt) {
         level.update(dt);
@@ -52,6 +50,7 @@ export async function playLevelFactory(game, context) {
             direction
           );
         }
+        createFOVLayer(camera, levelStore).then(layer => level.setFOV(layer));
       });
       dispatchAll({ type: "LEVEL_LOADED", grid, byTile, level });
     });

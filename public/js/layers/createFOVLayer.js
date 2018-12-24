@@ -8,46 +8,50 @@ const nonVisible = Symbol("non-visible");
 function scanline(rowY, row, playerX, playerY) {
   const viewMap = new Array(row.length);
   const yDistance = Math.abs(rowY - playerY);
-  if (yDistance > 3) {
-    for (let i = 0; i < viewMap.length; i++) {
-      viewMap[i] = nonVisible;
-    }
-    return viewMap;
-  } else if (yDistance === 3) {
-    for (let i = 0; i < viewMap.length; i++) {
-      viewMap[i] = nonVisible;
-    }
-    return viewMap;
-  } else if (yDistance === 2) {
-    for (let i = 0; i < viewMap.length; i++) {
-      viewMap[i] = nonVisible;
-    }
-    return viewMap;
-  } else if (yDistance === 1) {
-    for (let i = 0; i < viewMap.length; i++) {
-      viewMap[i] = nonVisible;
-    }
-    return viewMap;
-  } else if (yDistance === 0) {
-    // rowY === playerY
-    const left = row.slice(0, playerX).reverse();
-    const right = row.slice(playerX + 1);
+  // if (yDistance > 3) {
+  //   for (let i = 0; i < viewMap.length; i++) {
+  //     viewMap[i] = nonVisible;
+  //   }
+  // }
+  // else if (yDistance === 3) {
+  //   for (let i = 0; i < viewMap.length; i++) {
+  //     viewMap[i] = visible;
+  //   }
+  // } else if (yDistance === 2) {
+  //   for (let i = 0; i < viewMap.length; i++) {
+  //     viewMap[i] = visible;
+  //   }
+  // } else if (yDistance === 1) {
+  //   for (let i = 0; i < viewMap.length; i++) {
+  //     viewMap[i] = visible;
+  //   }
+  // }
+  // else if (yDistance <= 3) {
+  // rowY === playerY
+  const left = row.slice(0, playerX).reverse();
+  const right = row.slice(playerX + 1);
 
-    const ret = [left, right].map(tiles => {
-      let foundWall = 0;
-      return tiles.map(tile => {
-        if (foundWall > 0) {
-          return nonVisible;
-        }
+  const ret = [left, right].map(tiles => {
+    let foundWall = 0;
+    return tiles.map((tile, idx) => {
+      if (foundWall > 0) {
+        return nonVisible;
+      }
 
-        if (isWall(tile)) {
-          foundWall++;
-        }
-        return visible;
-      });
+      if (isWall(tile)) {
+        foundWall++;
+      }
+
+      // if (idx > 3) {
+      //   return nonVisible;
+      // }
+
+      return visible;
     });
-    return [...ret[0].reverse(), visible, ...ret[1]];
-  }
+  });
+  return [...ret[0].reverse(), visible, ...ret[1]];
+  // }
+  // return viewMap;
 }
 
 export async function createFOVLayer(camera, levelStore) {
@@ -62,12 +66,13 @@ export async function createFOVLayer(camera, levelStore) {
   const x = camera.pos.x;
   let y = Math.floor(camera.pos.y / TILE_SIZE);
   const lines = [];
+  const s = Math.floor(camera.size.x / TILE_SIZE);
   do {
-    console.log(y);
-    const row = grid.getRow(x, y, Math.floor(camera.size.x / TILE_SIZE));
+    const yTile = Math.floor(y / TILE_SIZE);
+    const row = grid.getRow(x, yTile, s);
     lines.push(
       scanline(
-        Math.floor(y / TILE_SIZE),
+        yTile,
         row,
         player.position.x + Math.floor(camera.pos.x / TILE_SIZE),
         player.position.y + Math.floor(camera.pos.y / TILE_SIZE)
@@ -75,11 +80,9 @@ export async function createFOVLayer(camera, levelStore) {
     );
     y += TILE_SIZE;
   } while (y < camera.pos.y + camera.size.y);
-  console.log(lines);
   lines.forEach((line, y) => {
     line.forEach((tile, x) => {
       if (tile === visible) {
-        console.log("vis");
       } else {
         renderPaletteTile("W", x, y, context, palette);
       }
