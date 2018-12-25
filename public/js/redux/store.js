@@ -20,7 +20,7 @@ export const createGame = () => {
   stores.push(store);
 
   store.start = function() {
-    this.playLevel("1");
+    this.playLevel("1-1");
   };
 
   return store;

@@ -1,12 +1,15 @@
 import { TILE_SIZE } from "../render.js";
 
-function onScreen(pos, camera) {
+function onScreen(pos, camera, tile) {
   const left = camera.pos.x;
   const right = camera.pos.x + camera.size.x;
   const up = camera.pos.y;
   const down = camera.pos.y + camera.size.y;
 
-  if (pos.x < left || pos.x > right || pos.y < up || pos.y > down) {
+  if (pos.x < left || pos.x >= right || pos.y < up || pos.y >= down) {
+    // console.log(tile);
+    // console.log(left, right, up, down);
+    // console.log(pos.x, pos.y);
     return false;
   }
   return true;
@@ -23,10 +26,10 @@ export default function createSpriteLayer(entities, width, height) {
       spriteBufferContext.clearRect(0, 0, width, height);
       entity.draw(spriteBufferContext);
       const pos = {
-        x: entity.pos.x - camera.pos.x,
-        y: entity.pos.y - camera.pos.y + TILE_SIZE
+        x: Math.max(entity.pos.x - camera.pos.x, 0),
+        y: Math.max(entity.pos.y - camera.pos.y + TILE_SIZE, 0)
       };
-      if (onScreen(pos, camera)) {
+      if (onScreen(pos, camera, entity.tile)) {
         context.drawImage(spriteBuffer, pos.x, pos.y);
       }
     });

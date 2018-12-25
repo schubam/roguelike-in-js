@@ -37,6 +37,8 @@ export async function playLevelFactory(game, context) {
         level.update(dt);
         level.draw(context, camera);
         camera.move(player.pos);
+        
+        level.updateUI(context);
       };
       timer.start();
       levelStore.subscribe(() => {
@@ -50,7 +52,6 @@ export async function playLevelFactory(game, context) {
             direction
           );
         }
-        level.updateUI(context);
         // TODO uncomment to enable FOV
         // createFOVLayer(camera, levelStore).then(layer => level.setFOV(layer));
       });
